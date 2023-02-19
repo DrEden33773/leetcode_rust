@@ -77,5 +77,6 @@ impl Solution {
             "max_average_ratio => {}",
             Self::max_average_ratio(classes, extra_students)
         );
+        println!()
     }
 }
