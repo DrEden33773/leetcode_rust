@@ -2,6 +2,10 @@
 pub struct Solution;
 
 impl Solution {
+    /// ## LeetCode
+    ///
+    /// ### 1792. Maximum Average Pass Ratio
+    ///
     /// **algorithm** = `greedy`
     ///
     /// **data structure** = `priority_queue` / `binary_heap`
@@ -63,8 +67,7 @@ impl Solution {
 
         let sum_ratio = priority_queue
             .iter()
-            .map(|ratio| ratio.get_ratio())
-            .sum::<f64>();
+            .fold(0.0, |acm, ratio| acm + ratio.get_ratio());
 
         sum_ratio / classes.len() as f64
     }
