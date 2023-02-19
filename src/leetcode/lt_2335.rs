@@ -20,7 +20,6 @@ impl Solution {
         let to_fill: Vec<i32> = (0..3)
             .map(|_| rand::thread_rng().gen_range(0..=100))
             .collect();
-        let to_fill = vec![5, 4, 4];
         println!(
             "{:?} => {} seconds",
             to_fill.clone(),
