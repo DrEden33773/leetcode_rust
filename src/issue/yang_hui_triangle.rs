@@ -1,8 +1,8 @@
 #[allow(dead_code)]
 pub fn solution(num: usize) -> usize {
-    fn update(curr: Box<Vec<usize>>) -> Box<Vec<usize>> {
+    fn update(curr: Vec<usize>) -> Vec<usize> {
         let new_len = curr.len() + 1;
-        let mut new: Box<Vec<usize>> = Box::new(Vec::with_capacity(new_len));
+        let mut new: Vec<usize> = Vec::with_capacity(new_len);
         new.push(1);
         for index in 1..new_len - 1 {
             new.push(curr[index - 1] + curr[index]);
@@ -10,7 +10,7 @@ pub fn solution(num: usize) -> usize {
         new.push(1);
         new
     }
-    let mut curr: Box<Vec<usize>> = Box::new(vec![1]);
+    let mut curr: Vec<usize> = vec![1];
     let mut pos: usize = 1;
     let mut prev_len: usize = 0;
     loop {

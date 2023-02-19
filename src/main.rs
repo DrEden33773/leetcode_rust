@@ -12,6 +12,8 @@ fn main() {
     // lt::lt_75::Solution::test();
     // lt::lt_2335::Solution::test();
     // lt::lt_1::Solution::test();
+    lt::lt_1792::Solution::test();
+
     // i::yang_hui_triangle::test();
-    i::exercise_plan::test();
+    // i::exercise_plan::test();
 }
