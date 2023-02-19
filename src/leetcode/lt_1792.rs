@@ -2,6 +2,12 @@
 pub struct Solution;
 
 impl Solution {
+    /// **algorithm** = `greedy`
+    ///
+    /// **data structure** = `priority_queue` / `binary_heap`
+    ///
+    /// **technique** = try to cmp in `i32`, not in `f64` => `Fractional simplification`
+    ///
     #[allow(dead_code)]
     pub fn max_average_ratio(classes: Vec<Vec<i32>>, extra_students: i32) -> f64 {
         use std::collections::BinaryHeap;
@@ -58,10 +64,10 @@ impl Solution {
             priority_queue.push(max_increment.get_increased());
         }
 
-        let mut sum_ratio = 0.0;
-        for ratio in priority_queue {
-            sum_ratio += ratio.get_ratio();
-        }
+        let sum_ratio = priority_queue
+            .iter()
+            .map(|ratio| ratio.get_ratio())
+            .sum::<f64>();
 
         sum_ratio / classes.len() as f64
     }
