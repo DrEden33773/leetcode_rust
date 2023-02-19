@@ -29,10 +29,7 @@ impl Solution {
             fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
                 let self_icm = (other.total + 1) * other.total * (self.total - self.pass);
                 let other_icm = (self.total + 1) * self.total * (other.total - other.pass);
-                match self_icm.partial_cmp(&other_icm) {
-                    Some(ord) => Some(ord),
-                    None => None,
-                }
+                self_icm.partial_cmp(&other_icm)
             }
         }
         impl Ord for Ratio {
