@@ -28,12 +28,12 @@ struct Codec;
  * If you need a mutable reference, change it to `&mut self` instead.
  */
 impl Codec {
-    #[allow(unused)]
+    #[allow(dead_code)]
     fn new() -> Self {
         Codec
     }
 
-    #[allow(unused)]
+    #[allow(dead_code)]
     fn serialize(&self, root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Option<i32>> {
         use std::collections::VecDeque;
 
@@ -58,11 +58,11 @@ impl Codec {
         ans
     }
 
-    #[allow(unused)]
+    #[allow(dead_code)]
     fn deserialize(&self, data: Vec<Option<i32>>) -> Option<Rc<RefCell<TreeNode>>> {
         use std::collections::VecDeque;
 
-        if (data.is_empty()) {
+        if data.is_empty() {
             return None;
         }
 
