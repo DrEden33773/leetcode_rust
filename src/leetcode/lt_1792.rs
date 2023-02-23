@@ -86,23 +86,26 @@ impl Solution {
 
 #[cfg(test)]
 mod max_average_ratio {
-    #[test]
-    pub fn case_1() {
-        use super::Solution;
+    use super::*;
+
+    fn case_1() {
         let classes = vec![vec![1, 2], vec![3, 5], vec![2, 2]];
         let extra_students = 2;
         let expected = 0.78333;
         let result = Solution::max_average_ratio(classes, extra_students);
         assert!((expected - result).abs() < 10e-5);
     }
-
-    #[test]
-    pub fn case_2() {
-        use super::Solution;
+    fn case_2() {
         let classes = vec![vec![2, 4], vec![3, 9], vec![4, 5], vec![2, 10]];
         let extra_students = 4;
         let expected = 0.53485;
         let result = Solution::max_average_ratio(classes, extra_students);
         assert!((expected - result).abs() < 10e-5);
+    }
+
+    #[test]
+    fn it_works() {
+        case_1();
+        case_2();
     }
 }

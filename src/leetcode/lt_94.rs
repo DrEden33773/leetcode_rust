@@ -22,20 +22,20 @@ impl TreeNode {
 pub struct Solution;
 
 impl Solution {
-    #[allow(unused)]
+    #[allow(dead_code)]
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut ans = vec![];
         let mut stack = vec![];
         let mut node = root;
 
         while node.is_some() || stack.len() > 0 {
-            while let Some(mut n) = node {
-                node = n.borrow_mut().left.take();
-                stack.push(n);
+            while let Some(curr) = node {
+                node = curr.borrow_mut().left.take();
+                stack.push(curr);
             }
-            if let Some(mut n) = stack.pop() {
-                ans.push(n.borrow().val);
-                node = n.borrow_mut().right.take();
+            if let Some(curr) = stack.pop() {
+                ans.push(curr.borrow().val);
+                node = curr.borrow_mut().right.take();
             }
         }
         ans
@@ -43,11 +43,11 @@ impl Solution {
 }
 
 // https://leetcode.cn/problems/binary-tree-inorder-traversal/solution/er-cha-shu-by-custerfun-zxm3/
-#[allow(unused)]
+#[allow(dead_code)]
 pub fn to_tree(vec: Vec<Option<i32>>) -> Option<Rc<RefCell<TreeNode>>> {
     use std::collections::VecDeque;
 
-    if (vec.is_empty()) {
+    if vec.is_empty() {
         return None;
     }
 
@@ -56,7 +56,7 @@ pub fn to_tree(vec: Vec<Option<i32>>) -> Option<Rc<RefCell<TreeNode>>> {
     queue.push_back(head.as_ref().unwrap().clone());
 
     for children in vec[1..].chunks(2) {
-        let mut parent = queue.pop_front().unwrap();
+        let parent = queue.pop_front().unwrap();
         if let Some(v) = children[0] {
             parent.borrow_mut().left = Some(Rc::new(RefCell::new(TreeNode::new(v))));
             queue.push_back(parent.borrow().left.as_ref().unwrap().clone());

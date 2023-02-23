@@ -1,7 +1,9 @@
 use std::cell::RefCell;
+use std::fmt::Display;
 use std::rc::Rc;
 
 #[allow(dead_code)]
+#[derive(Debug)]
 pub struct TreeNode<T: Copy> {
     pub val: T,
     pub left: Option<Rc<RefCell<TreeNode<T>>>>,
@@ -20,7 +22,7 @@ impl<T: Copy> TreeNode<T> {
 }
 
 #[allow(dead_code)]
-#[derive(Default)]
+#[derive(Debug)]
 pub struct BinaryTree<T: Copy> {
     root: Option<Rc<RefCell<TreeNode<T>>>>,
     cnt: usize,
@@ -33,7 +35,7 @@ impl<T: Copy> BinaryTree<T> {
     }
 
     fn pre_order_builder(&mut self, seq: &Vec<Option<T>>) -> Option<Rc<RefCell<TreeNode<T>>>> {
-        if self.cnt > seq.len() {
+        if !(self.cnt < seq.len()) {
             return None;
         }
         if let None = seq[self.cnt] {
@@ -51,11 +53,9 @@ impl<T: Copy> BinaryTree<T> {
             return None;
         }
         use std::collections::VecDeque;
-
         let root = Some(Rc::new(RefCell::new(TreeNode::new(seq[0].unwrap()))));
         let mut queue = VecDeque::new();
         queue.push_back(root.as_ref().unwrap().clone());
-
         for children in seq[1..].chunks(2) {
             let parent = queue.pop_front().unwrap();
             if let Some(v) = children[0] {
@@ -70,25 +70,174 @@ impl<T: Copy> BinaryTree<T> {
                 queue.push_back(parent.borrow().right.as_ref().unwrap().clone());
             }
         }
-
         root
     }
 
     pub fn init_by_pre_order(&mut self, seq: Vec<Option<T>>) {
         self.root = self.pre_order_builder(&seq);
+        self.cnt = 0;
     }
     pub fn init_by_level_order(&mut self, seq: Vec<Option<T>>) {
         self.root = self.level_order_builder(&seq);
     }
 
     pub fn from_pre_order(seq: Vec<Option<T>>) -> BinaryTree<T> {
-        let mut binary_tree = BinaryTree::<T>::new();
+        let mut binary_tree = BinaryTree::new();
         binary_tree.init_by_pre_order(seq);
         binary_tree
     }
     pub fn from_level_order(seq: Vec<Option<T>>) -> BinaryTree<T> {
-        let mut binary_tree = BinaryTree::<T>::new();
+        let mut binary_tree = BinaryTree::new();
         binary_tree.init_by_level_order(seq);
         binary_tree
+    }
+
+    pub fn to_pre_order_seq_iterative(&self) -> Vec<Option<T>> {
+        use std::collections::VecDeque;
+        let mut seq: Vec<Option<T>> = vec![];
+        let mut stack: VecDeque<Option<Rc<RefCell<TreeNode<T>>>>> = VecDeque::new();
+        let mut node = self.root.clone();
+        while node.is_some() || !stack.is_empty() {
+            // iterate
+            while let Some(curr) = node.clone() {
+                seq.push(Some(curr.borrow().val));
+                stack.push_back(Some(curr.clone()));
+                node = curr.borrow().left.clone();
+            }
+            // node == None
+            seq.push(None);
+            // trace back
+            if let Some(curr) = stack.pop_back().unwrap() {
+                node = curr.borrow().right.clone();
+            }
+        }
+        // The last `node` of tree is always `None`, and will never being visited.
+        // So we need to add it manually.
+        seq.push(None);
+        seq
+    }
+    pub fn to_pre_order_seq(&self) -> Vec<Option<T>> {
+        fn recursive_func<T: Copy>(
+            node: Option<Rc<RefCell<TreeNode<T>>>>,
+            seq: &mut Vec<Option<T>>,
+        ) {
+            if let Some(curr) = node.clone() {
+                seq.push(Some(curr.borrow().val));
+                recursive_func(curr.borrow().left.clone(), seq);
+                recursive_func(curr.borrow().right.clone(), seq);
+            } else {
+                // must add `else`, or non_null node will be treated as null
+                // ( after being treated as non_null normally )
+                seq.push(None);
+            }
+        }
+        let mut seq: Vec<Option<T>> = vec![];
+        recursive_func(self.root.clone(), &mut seq);
+        seq
+    }
+    pub fn to_level_order_seq(&self) -> Vec<Option<T>> {
+        use std::collections::VecDeque;
+        let mut seq: Vec<Option<T>> = vec![];
+        let mut queue: VecDeque<Option<Rc<RefCell<TreeNode<T>>>>> = VecDeque::new();
+        queue.push_back(self.root.clone());
+        while !queue.is_empty() {
+            if let Some(node) = queue.pop_front().unwrap() {
+                seq.push(Some(node.borrow().val));
+                queue.push_back(node.borrow().left.clone());
+                queue.push_back(node.borrow().right.clone());
+            } else {
+                seq.push(None);
+            }
+        }
+        seq
+    }
+}
+
+#[allow(dead_code)]
+impl<T: Copy + PartialEq> PartialEq for BinaryTree<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.to_level_order_seq() == other.to_level_order_seq()
+    }
+}
+
+#[allow(dead_code)]
+impl<T: Copy + Display> BinaryTree<T> {
+    fn print_in_layer(&self) {
+        if let None = self.root.as_ref() {
+            println!("Empty...");
+            return;
+        }
+        use std::collections::VecDeque;
+        let mut node = self.root.as_ref().unwrap().clone();
+        let mut queue = VecDeque::new();
+        queue.push_back(node.clone());
+        while !queue.is_empty() {
+            let len = queue.len();
+            for _ in 0..len {
+                node = queue.pop_front().unwrap();
+                println!("{} ", node.borrow().val);
+                if let Some(left) = node.borrow().left.as_ref() {
+                    queue.push_back(left.to_owned());
+                }
+                if let Some(right) = node.borrow().right.as_ref() {
+                    queue.push_back(right.to_owned());
+                }
+            }
+            println!();
+        }
+    }
+}
+
+#[cfg(test)]
+mod binary_tree {
+    use super::*;
+
+    #[test]
+    fn pre_order_serialize_deserialize() {
+        let seq = vec![
+            Some(1),
+            Some(2),
+            Some(4),
+            None,
+            None,
+            None,
+            Some(3),
+            Some(6),
+            None,
+            None,
+            Some(7),
+            None,
+            None,
+        ];
+        let tree = BinaryTree::from_pre_order(seq.clone());
+        let iteratively_serialized = tree.to_pre_order_seq_iterative();
+        let deserialized_tree = BinaryTree::from_pre_order(iteratively_serialized);
+        assert_eq!(tree, deserialized_tree);
+
+        let seq_b = vec![
+            Some(1),
+            Some(2),
+            Some(4),
+            None,
+            None,
+            None,
+            Some(3),
+            Some(6),
+            None,
+            None,
+            Some(7),
+        ];
+        let a = BinaryTree::from_pre_order(seq);
+        let b = BinaryTree::from_pre_order(seq_b);
+        assert_eq!(a, b);
+    }
+
+    #[test]
+    fn level_order_serialize_deserialize() {
+        let seq = vec![Some(1), Some(2), Some(3), Some(4), None, Some(6), Some(7)];
+        let tree = BinaryTree::from_level_order(seq.clone());
+        let serialized = tree.to_level_order_seq();
+        let deserialized_tree = BinaryTree::from_level_order(serialized);
+        assert_eq!(tree, deserialized_tree);
     }
 }

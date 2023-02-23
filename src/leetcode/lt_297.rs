@@ -96,11 +96,11 @@ impl Codec {
  */
 
 // https://leetcode.cn/problems/binary-tree-inorder-traversal/solution/er-cha-shu-by-custerfun-zxm3/
-#[allow(unused)]
+#[allow(dead_code)]
 pub fn to_tree(vec: Vec<Option<i32>>) -> Option<Rc<RefCell<TreeNode>>> {
     use std::collections::VecDeque;
 
-    if (vec.is_empty()) {
+    if vec.is_empty() {
         return None;
     }
 
@@ -109,7 +109,7 @@ pub fn to_tree(vec: Vec<Option<i32>>) -> Option<Rc<RefCell<TreeNode>>> {
     queue.push_back(head.as_ref().unwrap().clone());
 
     for children in vec[1..].chunks(2) {
-        let mut parent = queue.pop_front().unwrap();
+        let parent = queue.pop_front().unwrap();
         if let Some(v) = children[0] {
             parent.borrow_mut().left = Some(Rc::new(RefCell::new(TreeNode::new(v))));
             queue.push_back(parent.borrow().left.as_ref().unwrap().clone());
@@ -144,7 +144,6 @@ macro_rules! tree {
 mod serialize_deserialize {
     use super::*;
 
-    #[test]
     fn case1() {
         let codec = Codec::new();
         let tree_1 = tree![1, 2, 3, null, null, 4, 5];
@@ -152,5 +151,10 @@ mod serialize_deserialize {
         let tree_1_deserialized = codec.deserialize(tree_1_serialized.clone());
         let tree_1_deserialized_serialized = codec.serialize(tree_1_deserialized);
         assert_eq!(tree_1_serialized, tree_1_deserialized_serialized)
+    }
+
+    #[test]
+    fn it_works() {
+        case1();
     }
 }
