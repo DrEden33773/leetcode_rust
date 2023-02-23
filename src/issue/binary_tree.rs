@@ -209,11 +209,6 @@ mod binary_tree {
             None,
             None,
         ];
-        let tree = BinaryTree::from_pre_order(seq.clone());
-        let iteratively_serialized = tree.to_pre_order_seq_iterative();
-        let deserialized_tree = BinaryTree::from_pre_order(iteratively_serialized);
-        assert_eq!(tree, deserialized_tree);
-
         let seq_b = vec![
             Some(1),
             Some(2),
@@ -227,15 +222,34 @@ mod binary_tree {
             None,
             Some(7),
         ];
-        let a = BinaryTree::from_pre_order(seq);
-        let b = BinaryTree::from_pre_order(seq_b);
-        assert_eq!(a, b);
+
+        let tree = BinaryTree::from_pre_order(seq.clone());
+        let tree_b = BinaryTree::from_pre_order(seq_b);
+        assert_eq!(tree, tree_b);
+        let iteratively_serialized = tree.to_pre_order_seq_iterative();
+        let deserialized_tree = BinaryTree::from_pre_order(iteratively_serialized);
+        assert_eq!(tree, deserialized_tree);
     }
 
     #[test]
     fn level_order_serialize_deserialize() {
         let seq = vec![Some(1), Some(2), Some(3), Some(4), None, Some(6), Some(7)];
+        let seq_b = vec![
+            Some(1),
+            Some(2),
+            Some(3),
+            Some(4),
+            None,
+            Some(6),
+            Some(7),
+            None,
+            None,
+            None,
+            None,
+        ];
         let tree = BinaryTree::from_level_order(seq.clone());
+        let tree_b = BinaryTree::from_level_order(seq_b);
+        assert_eq!(tree, tree_b);
         let serialized = tree.to_level_order_seq();
         let deserialized_tree = BinaryTree::from_level_order(serialized);
         assert_eq!(tree, deserialized_tree);
