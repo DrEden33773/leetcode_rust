@@ -161,8 +161,36 @@ impl<T: Copy + PartialEq> PartialEq for BinaryTree<T> {
 }
 
 #[allow(dead_code)]
+impl<T: Copy> BinaryTree<T> {
+    pub fn get_height(&self) -> usize {
+        if let None = self.root.as_ref() {
+            return 0;
+        }
+        let mut height = 0;
+        use std::collections::VecDeque;
+        let mut node = self.root.as_ref().unwrap().clone();
+        let mut queue = VecDeque::new();
+        queue.push_back(node.clone());
+        while !queue.is_empty() {
+            let len = queue.len();
+            for _ in 0..len {
+                node = queue.pop_front().unwrap();
+                if let Some(left) = node.borrow().left.as_ref() {
+                    queue.push_back(left.to_owned());
+                }
+                if let Some(right) = node.borrow().right.as_ref() {
+                    queue.push_back(right.to_owned());
+                }
+            }
+            height += 1;
+        }
+        height
+    }
+}
+
+#[allow(dead_code)]
 impl<T: Copy + Display> BinaryTree<T> {
-    fn print_in_layer(&self) {
+    pub fn print_in_layer(&self) {
         if let None = self.root.as_ref() {
             println!("Empty...");
             return;
@@ -222,7 +250,6 @@ mod binary_tree {
             None,
             Some(7),
         ];
-
         let tree = BinaryTree::from_pre_order(seq.clone());
         let tree_b = BinaryTree::from_pre_order(seq_b);
         assert_eq!(tree, tree_b);
@@ -253,5 +280,14 @@ mod binary_tree {
         let serialized = tree.to_level_order_seq();
         let deserialized_tree = BinaryTree::from_level_order(serialized);
         assert_eq!(tree, deserialized_tree);
+    }
+
+    #[test]
+    fn get_height_test() {
+        let seq = vec![Some(1), Some(2), Some(3), Some(4), None, Some(6), Some(7)];
+        let tree = BinaryTree::from_level_order(seq.clone());
+        let expected_height = 3;
+        let calculated_height = tree.get_height();
+        assert_eq!(expected_height, calculated_height);
     }
 }
