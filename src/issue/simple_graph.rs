@@ -26,12 +26,7 @@ impl Ord for State {
             .cost
             .cmp(&self.cost)
             .then_with(|| other.position.cmp(&self.position))
-        // another version could be:
-        //
-        // other
-        //     .cost
-        //     .cmp(&self.cost)
-        //     .then_with(|| self.position.cmp(&other.position))
+        // `self.position.cmp(&other.position)` will be also fine.
     }
 }
 // `PartialOrd` needs to be implemented as well.
