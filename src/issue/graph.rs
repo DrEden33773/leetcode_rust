@@ -41,6 +41,7 @@ pub enum ErrType<T: Eq> {
     NoEdgeWithCost(T, T, usize),
 }
 
+/// Getter Methods (Read-Only)
 impl<T: Hash + Eq + Clone> Graph<T> {
     pub fn vertex_num(&self) -> usize {
         self.vertex_num
@@ -48,8 +49,12 @@ impl<T: Hash + Eq + Clone> Graph<T> {
     pub fn edge_num(&self) -> usize {
         self.edge_num
     }
+    pub fn edges(&self) -> &HashMap<T, Edges<T>> {
+        &self.edges_from
+    }
 }
 
+/// Vex Operations
 impl<T: Hash + Eq + Clone> Graph<T> {
     pub fn add_vex(&mut self, vex: &T) -> Result<(), ErrType<T>> {
         if let Some(_) = self.edges_from.get(vex) {
@@ -89,6 +94,7 @@ impl<T: Hash + Eq + Clone> Graph<T> {
     }
 }
 
+/// Edge Operations
 impl<T: Hash + Eq + Clone> Graph<T> {
     pub fn add_edge(&mut self, start: &T, goal: &T, cost: usize) -> Result<(), ErrType<T>> {
         if let None = self.edges_from.get(start) {
@@ -195,12 +201,6 @@ impl<T: Hash + Eq + Clone> Graph<T> {
         }
         self.edge_num -= deleted_edge_num;
         Ok(())
-    }
-}
-
-impl<T: Hash + Eq + Clone> Graph<T> {
-    pub fn edges(&self) -> &HashMap<T, Edges<T>> {
-        &self.edges_from
     }
 }
 
@@ -340,7 +340,13 @@ mod graph {
         // 2. try to delete non_existed vex `e`
         assert_eq!(graph.del_vex(&'e').unwrap_err(), ErrType::NoVex('e'));
         // 3. try to delete edge with non_existed vex `a`
-        assert_eq!(graph.del_edge_all(&'c', &'a').unwrap_err(), ErrType::NoVex('a'));
-        assert_eq!(graph.del_edge_all(&'a', &'c').unwrap_err(), ErrType::NoVex('a'));
+        assert_eq!(
+            graph.del_edge_all(&'c', &'a').unwrap_err(),
+            ErrType::NoVex('a')
+        );
+        assert_eq!(
+            graph.del_edge_all(&'a', &'c').unwrap_err(),
+            ErrType::NoVex('a')
+        );
     }
 }
