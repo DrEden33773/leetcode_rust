@@ -1,6 +1,9 @@
 #![allow(dead_code, missing_docs)]
 
-use std::{collections::HashMap, hash::Hash};
+use std::{
+    collections::{HashMap, HashSet, VecDeque},
+    hash::Hash,
+};
 
 #[derive(Clone, Hash, PartialEq, Eq)]
 pub struct Edge<T: Hash + Eq + Clone> {
@@ -16,7 +19,7 @@ impl<T: Hash + Eq + Clone> Edge<T> {
 
 type Edges<T> = Vec<Edge<T>>;
 
-#[derive(Default, Clone)]
+#[derive(Clone)]
 pub struct Graph<T: Hash + Eq + Clone> {
     /* edges_from[vex] := edges_start_with_vex */
     edges_from: HashMap<T, Edges<T>>,
@@ -29,6 +32,17 @@ pub struct Graph<T: Hash + Eq + Clone> {
 
     /* num of edge */
     edge_num: usize,
+}
+
+impl<T: Hash + Eq + Clone> Default for Graph<T> {
+    fn default() -> Self {
+        Self {
+            edges_from: HashMap::new(),
+            edges_to: HashMap::new(),
+            vertex_num: 0,
+            edge_num: 0,
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -204,6 +218,65 @@ impl<T: Hash + Eq + Clone> Graph<T> {
     }
 }
 
+/// Builders
+impl<T: Hash + Eq + Clone> Graph<T> {
+    pub fn from(vertices: Vec<T>, edges: Vec<(T, T, usize)>) -> Self {
+        let mut graph = Self::default();
+        for vex in vertices.iter() {
+            graph.add_vex(vex).unwrap_or_default();
+        }
+        for (start, goal, cost) in edges.iter() {
+            graph.add_edge(start, goal, *cost).unwrap_or_default();
+        }
+        graph
+    }
+}
+
+/// Traverse Operations
+impl<T: Hash + Eq + Clone> Graph<T> {
+    fn dfs_helper<'a, 'l: 'a, P>(
+        &'l self,
+        vex: &'a T,
+        visited: &mut HashSet<&'a T>,
+        predicate: &mut P,
+    ) where
+        P: FnMut(&T),
+    {
+        predicate(vex);
+        visited.insert(vex);
+        for Edge { node, cost: _ } in &self.edges_from[vex] {
+            if !visited.contains(node) {
+                self.dfs_helper(node, visited, predicate);
+            }
+        }
+    }
+    pub fn iterate_vertices_dfs<P>(&self, start: &T, predicate: &mut P)
+    where
+        P: FnMut(&T),
+    {
+        let mut visited: HashSet<&T> = HashSet::new();
+        self.dfs_helper(start, &mut visited, predicate);
+    }
+    pub fn iterate_vertices_bfs<P>(&self, start: &T, predicate: &mut P)
+    where
+        P: FnMut(&T),
+    {
+        let mut visited: HashSet<&T> = HashSet::new();
+        let mut queue: VecDeque<&T> = VecDeque::new();
+        queue.push_back(start);
+        visited.insert(start);
+        while let Some(vex) = queue.pop_front() {
+            predicate(vex);
+            for Edge { node, cost: _ } in &self.edges_from[vex] {
+                if !visited.contains(node) {
+                    queue.push_back(node);
+                    visited.insert(node);
+                }
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod graph {
     use super::*;
@@ -348,5 +421,39 @@ mod graph {
             graph.del_edge_all(&'a', &'c').unwrap_err(),
             ErrType::NoVex('a')
         );
+    }
+
+    #[test]
+    fn test_dfs_iterate_vex() {
+        let vertices = vec!['a', 'b', 'c', 'd'];
+        let edges: Vec<(char, char, usize)> = vec![
+            ('a', 'b', 1),
+            ('b', 'd', 2),
+            ('c', 'b', 3),
+            ('c', 'a', 3),
+            ('a', 'b', 2),
+            ('a', 'c', 3),
+        ];
+        let graph = Graph::from(vertices, edges);
+        let mut container = vec![];
+        graph.iterate_vertices_dfs(&'a', &mut (|x| container.push(x.to_owned())));
+        dbg!(container);
+    }
+
+    #[test]
+    fn test_bfs_iterate_vex() {
+        let vertices = vec!['a', 'b', 'c', 'd'];
+        let edges: Vec<(char, char, usize)> = vec![
+            ('a', 'b', 1),
+            ('b', 'd', 2),
+            ('c', 'b', 3),
+            ('c', 'a', 3),
+            ('a', 'b', 2),
+            ('a', 'c', 3),
+        ];
+        let graph = Graph::from(vertices, edges);
+        let mut container = vec![];
+        graph.iterate_vertices_bfs(&'a', &mut (|x| container.push(x.to_owned())));
+        dbg!(container);
     }
 }

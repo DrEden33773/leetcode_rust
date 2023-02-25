@@ -3,15 +3,15 @@ use std::fmt::Display;
 use std::rc::Rc;
 
 #[allow(dead_code)]
-#[derive(Debug)]
-pub struct TreeNode<T: Copy> {
+#[derive(Debug, Clone)]
+pub struct TreeNode<T: Clone> {
     pub val: T,
     pub left: Option<Rc<RefCell<TreeNode<T>>>>,
     pub right: Option<Rc<RefCell<TreeNode<T>>>>,
 }
 
 #[allow(dead_code)]
-impl<T: Copy> TreeNode<T> {
+impl<T: Clone> TreeNode<T> {
     pub fn new(val: T) -> Self {
         TreeNode {
             val,
@@ -22,14 +22,14 @@ impl<T: Copy> TreeNode<T> {
 }
 
 #[allow(dead_code)]
-#[derive(Debug)]
-pub struct BinaryTree<T: Copy> {
+#[derive(Debug, Clone)]
+pub struct BinaryTree<T: Clone> {
     root: Option<Rc<RefCell<TreeNode<T>>>>,
     cnt: usize,
 }
 
 #[allow(dead_code)]
-impl<T: Copy> BinaryTree<T> {
+impl<T: Clone> BinaryTree<T> {
     pub fn new() -> Self {
         BinaryTree { root: None, cnt: 0 }
     }
@@ -42,7 +42,9 @@ impl<T: Copy> BinaryTree<T> {
             self.cnt += 1;
             return None;
         }
-        let root = Some(Rc::new(RefCell::new(TreeNode::new(seq[self.cnt].unwrap()))));
+        let root = Some(Rc::new(RefCell::new(TreeNode::new(
+            seq[self.cnt].as_ref().unwrap().to_owned(),
+        ))));
         self.cnt += 1;
         root.as_ref().unwrap().borrow_mut().left = self.pre_order_builder(seq);
         root.as_ref().unwrap().borrow_mut().right = self.pre_order_builder(seq);
@@ -53,20 +55,23 @@ impl<T: Copy> BinaryTree<T> {
             return None;
         }
         use std::collections::VecDeque;
-        let root = Some(Rc::new(RefCell::new(TreeNode::new(seq[0].unwrap()))));
+        let root = Some(Rc::new(RefCell::new(TreeNode::new(
+            seq[0].as_ref().unwrap().to_owned(),
+        ))));
         let mut queue = VecDeque::new();
         queue.push_back(root.as_ref().unwrap().clone());
         for children in seq[1..].chunks(2) {
             let parent = queue.pop_front().unwrap();
-            if let Some(v) = children[0] {
-                parent.borrow_mut().left = Some(Rc::new(RefCell::new(TreeNode::new(v))));
+            if let Some(v) = children[0].as_ref() {
+                parent.borrow_mut().left = Some(Rc::new(RefCell::new(TreeNode::new(v.to_owned()))));
                 queue.push_back(parent.borrow().left.as_ref().unwrap().clone());
             }
             if children.len() <= 1 {
                 break;
             }
-            if let Some(v) = children[1] {
-                parent.borrow_mut().right = Some(Rc::new(RefCell::new(TreeNode::new(v))));
+            if let Some(v) = children[1].as_ref() {
+                parent.borrow_mut().right =
+                    Some(Rc::new(RefCell::new(TreeNode::new(v.to_owned()))));
                 queue.push_back(parent.borrow().right.as_ref().unwrap().clone());
             }
         }
@@ -100,7 +105,7 @@ impl<T: Copy> BinaryTree<T> {
         while node.is_some() || !stack.is_empty() {
             // iterate
             while let Some(curr) = node.clone() {
-                seq.push(Some(curr.borrow().val));
+                seq.push(Some(curr.borrow().val.clone()));
                 stack.push_back(Some(curr.clone()));
                 node = curr.borrow().left.clone();
             }
@@ -117,12 +122,12 @@ impl<T: Copy> BinaryTree<T> {
         seq
     }
     pub fn to_pre_order_seq(&self) -> Vec<Option<T>> {
-        fn recursive_func<T: Copy>(
+        fn recursive_func<T: Clone>(
             node: Option<Rc<RefCell<TreeNode<T>>>>,
             seq: &mut Vec<Option<T>>,
         ) {
             if let Some(curr) = node.clone() {
-                seq.push(Some(curr.borrow().val));
+                seq.push(Some(curr.borrow().val.clone()));
                 recursive_func(curr.borrow().left.clone(), seq);
                 recursive_func(curr.borrow().right.clone(), seq);
             } else {
@@ -142,7 +147,7 @@ impl<T: Copy> BinaryTree<T> {
         queue.push_back(self.root.clone());
         while !queue.is_empty() {
             if let Some(node) = queue.pop_front().unwrap() {
-                seq.push(Some(node.borrow().val));
+                seq.push(Some(node.borrow().val.clone()));
                 queue.push_back(node.borrow().left.clone());
                 queue.push_back(node.borrow().right.clone());
             } else {
@@ -154,14 +159,14 @@ impl<T: Copy> BinaryTree<T> {
 }
 
 #[allow(dead_code)]
-impl<T: Copy + PartialEq> PartialEq for BinaryTree<T> {
+impl<T: PartialEq + Clone> PartialEq for BinaryTree<T> {
     fn eq(&self, other: &Self) -> bool {
         self.to_level_order_seq() == other.to_level_order_seq()
     }
 }
 
 #[allow(dead_code)]
-impl<T: Copy> BinaryTree<T> {
+impl<T: Clone> BinaryTree<T> {
     pub fn get_height(&self) -> usize {
         if let None = self.root.as_ref() {
             return 0;
@@ -189,7 +194,7 @@ impl<T: Copy> BinaryTree<T> {
 }
 
 #[allow(dead_code)]
-impl<T: Copy + Display> BinaryTree<T> {
+impl<T: Display + Clone> BinaryTree<T> {
     pub fn print_in_layer(&self) {
         if let None = self.root.as_ref() {
             println!("Empty...");
@@ -289,5 +294,13 @@ mod binary_tree {
         let expected_height = 3;
         let calculated_height = tree.get_height();
         assert_eq!(expected_height, calculated_height);
+    }
+
+    #[test]
+    fn clone_tree_test() {
+        let seq = vec![Some(1), Some(2), Some(3), Some(4), None, Some(6), Some(7)];
+        let tree = BinaryTree::from_level_order(seq);
+        let cloned_tree = tree.clone();
+        assert_eq!(tree, cloned_tree);
     }
 }
