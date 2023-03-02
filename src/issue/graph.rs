@@ -234,6 +234,7 @@ impl<T: Hash + Eq + Clone> Graph<T> {
 
 /// Traverse Operations
 impl<T: Hash + Eq + Clone> Graph<T> {
+    /// helper(recursive function) for dfs
     fn dfs_helper<'a, 'l: 'a, P>(
         &'l self,
         vex: &'a T,
