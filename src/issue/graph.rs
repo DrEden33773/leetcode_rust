@@ -230,6 +230,18 @@ impl<T: Hash + Eq + Clone> Graph<T> {
         }
         graph
     }
+    pub fn clone_vertices_from(src: &Graph<T>) -> Self {
+        let mut graph = Self::default();
+        let vertices = src
+            .edges_from
+            .iter()
+            .map(|(v, _)| v.to_owned())
+            .collect::<Vec<T>>();
+        vertices.iter().for_each(|v| {
+            graph.add_vex(v).unwrap_or_default();
+        });
+        graph
+    }
 }
 
 /// Traverse Operations
@@ -275,6 +287,14 @@ impl<T: Hash + Eq + Clone> Graph<T> {
                 }
             }
         }
+    }
+}
+
+/// Minium Spanning Tree Operations
+impl<T: Hash + Eq + Clone> Graph<T> {
+    fn get_mst(&self) -> Self {
+        let mst = Self::clone_vertices_from(self);
+        unimplemented!();
     }
 }
 
