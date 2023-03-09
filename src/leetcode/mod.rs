@@ -1,3 +1,5 @@
+pub mod sort;
+pub mod heap;
 pub mod dp;
 pub mod lt_1;
 pub mod lt_1096;
