@@ -1,3 +1,4 @@
+pub mod sliding_window;
 pub mod sort;
 pub mod heap;
 pub mod dp;
