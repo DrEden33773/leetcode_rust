@@ -11,7 +11,7 @@ impl MedianFinder {
         unimplemented!("new")
     }
 
-    fn add_num(&mut self, num: i32) {
+    fn add_num(&mut self, _num: i32) {
         unimplemented!("add_num")
     }
 

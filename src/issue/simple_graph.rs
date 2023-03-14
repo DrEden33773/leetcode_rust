@@ -1,13 +1,14 @@
+#![allow(dead_code)]
+
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
-#[allow(dead_code)]
 #[derive(Copy, Clone, Eq, PartialEq)]
 struct State {
     cost: usize,
     position: usize,
 }
-#[allow(dead_code)]
+
 impl State {
     pub fn new(cost: usize, position: usize) -> Self {
         State { cost, position }
@@ -37,12 +38,12 @@ impl PartialOrd for State {
 }
 
 // Each node is represented as a `usize`, for a shorter implementation.
-#[allow(dead_code)]
+
 pub struct Edge {
     node: usize,
     cost: usize,
 }
-#[allow(dead_code)]
+
 impl Edge {
     pub fn new(node: usize, cost: usize) -> Self {
         Edge { node, cost }
