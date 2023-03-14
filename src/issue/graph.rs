@@ -293,7 +293,7 @@ impl<T: Hash + Eq + Clone> Graph<T> {
 /// Minium Spanning Tree Operations
 impl<T: Hash + Eq + Clone> Graph<T> {
     fn get_mst(&self) -> Self {
-        let mst = Self::clone_vertices_from(self);
+        let _mst = Self::clone_vertices_from(self);
         unimplemented!();
     }
 }

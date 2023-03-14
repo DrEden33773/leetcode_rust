@@ -8,5 +8,6 @@ use leetcode as lt;
 
 fn main() {
     println!();
-    lt::lt_1792::Solution::test();
+    println!("Please use `test` instead of running in `main func`...");
+    println!()
 }
