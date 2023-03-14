@@ -24,6 +24,10 @@ impl Solution {
         }
         let mut l = 0;
         let mut r = 0;
-        array[l..r].iter().map(|str| str.to_owned()).collect()
+        let _ret = array[l..r]
+            .iter()
+            .map(|str| str.to_owned())
+            .collect::<Vec<String>>();
+        unimplemented!();
     }
 }
