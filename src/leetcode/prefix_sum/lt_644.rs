@@ -1,4 +1,4 @@
-// #![allow(dead_code, unused_mut)]
+#![allow(dead_code, unused_mut)]
 
 pub struct Solution;
 
