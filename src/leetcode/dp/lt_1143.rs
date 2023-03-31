@@ -14,7 +14,8 @@ impl Solution {
                     std::cmp::max(prev[j], curr[j - 1])
                 }
             }
-            (prev, curr) = (curr, prev)
+            prev = curr;
+            curr = vec![0; n + 1];
         }
         prev[n]
     }
