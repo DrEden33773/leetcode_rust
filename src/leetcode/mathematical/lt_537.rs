@@ -17,8 +17,8 @@ impl Solution {
         let (ac, bd) = (a * c, b * d);
         let total = (a + b) * (c + d);
         let real = ac - bd;
-        let imaginary = total - ac - bd;
-        format!("{}+{}i", real, imaginary)
+        let imag = total - ac - bd;
+        format!("{}+{}i", real, imag)
     }
 }
 
