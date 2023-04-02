@@ -48,6 +48,9 @@ impl Solution {
         }
         *dp.last().unwrap()
     }
+    /// **Recommended Method:**
+    ///
+    ///  `1d_dp` * `2`
     pub fn max_value_two_1d_dp(grid: Vec<Vec<i32>>) -> i32 {
         let mut prev = grid[0].to_owned();
         let mut curr = vec![0; grid[0].len()];
