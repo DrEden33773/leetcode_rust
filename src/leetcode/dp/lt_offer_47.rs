@@ -23,7 +23,7 @@ impl Solution {
         }
         dp[row - 1][col - 1]
     }
-    pub fn max_value_new(mut grid: Vec<Vec<i32>>) -> i32 {
+    pub fn max_value_cheat(mut grid: Vec<Vec<i32>>) -> i32 {
         let row = grid.len();
         let col = grid.first().unwrap().len();
         for r in 1..row {
@@ -39,7 +39,7 @@ impl Solution {
         }
         grid[row - 1][col - 1]
     }
-    pub fn max_value_1d_dp(grid: Vec<Vec<i32>>) -> i32 {
+    pub fn max_value_one_1d_dp(grid: Vec<Vec<i32>>) -> i32 {
         let mut dp = vec![0; grid[0].len() + 1];
         for row in 0..grid.len() {
             for col in 0..grid[0].len() {
@@ -47,5 +47,27 @@ impl Solution {
             }
         }
         *dp.last().unwrap()
+    }
+    pub fn max_value_two_1d_dp(grid: Vec<Vec<i32>>) -> i32 {
+        let mut prev = grid[0].to_owned();
+        let mut curr = vec![0; grid[0].len()];
+        // deal with the initial status of `prev`
+        for col in 1..prev.len() {
+            prev[col] += prev[col - 1];
+        }
+        for row in 1..grid.len() {
+            // deal with the case where `col := 0`
+            curr[0] = prev[0] + grid[row][0];
+            // deal with `col in 1..max_col`
+            for col in 1..grid[0].len() {
+                curr[col] = grid[row][col] + curr[col - 1].max(prev[col]);
+            }
+            prev = curr;
+            /* if row == grid.len() - 1 {
+                break;
+            } */
+            curr = vec![0; grid[0].len()];
+        }
+        prev.last().unwrap().to_owned()
     }
 }
