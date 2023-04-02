@@ -39,4 +39,13 @@ impl Solution {
         }
         grid[row - 1][col - 1]
     }
+    pub fn max_value_1d_dp(grid: Vec<Vec<i32>>) -> i32 {
+        let mut dp = vec![0; grid[0].len() + 1];
+        for row in 0..grid.len() {
+            for col in 0..grid[0].len() {
+                dp[col + 1] = grid[row][col] + max(dp[col], dp[col + 1]);
+            }
+        }
+        *dp.last().unwrap()
+    }
 }
