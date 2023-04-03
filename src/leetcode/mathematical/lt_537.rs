@@ -4,10 +4,8 @@ pub struct Solution;
 
 impl Solution {
     pub fn complex_number_multiply(num1: String, num2: String) -> String {
-        let mut lhs = num1.split(['+', 'i']).collect::<Vec<_>>();
-        lhs.pop();
-        let mut rhs = num2.split(['+', 'i']).collect::<Vec<_>>();
-        rhs.pop();
+        let lhs = num1.split(['+', 'i']).collect::<Vec<_>>();
+        let rhs = num2.split(['+', 'i']).collect::<Vec<_>>();
         let (a, b, c, d) = (
             lhs[0].parse::<i16>().unwrap(),
             lhs[1].parse::<i16>().unwrap(),
