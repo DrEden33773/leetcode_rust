@@ -66,9 +66,6 @@ impl Solution {
                 curr[col] = grid[row][col] + curr[col - 1].max(prev[col]);
             }
             prev = curr;
-            /* if row == grid.len() - 1 {
-                break;
-            } */
             curr = vec![0; grid[0].len()];
         }
         prev.last().unwrap().to_owned()
