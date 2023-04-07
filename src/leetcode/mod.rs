@@ -1,3 +1,4 @@
+pub mod simulation;
 pub mod prefix_sum;
 pub mod graph;
 pub mod back_trace;
