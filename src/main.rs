@@ -1,5 +1,6 @@
 mod issue;
 mod leetcode;
+mod luogu;
 
 fn main() {
     println!();
