@@ -6,13 +6,10 @@ impl Solution {
     pub fn minimum_total(triangle: Vec<Vec<i32>>) -> i32 {
         let mut dp = vec![0; triangle.last().unwrap().len()];
         let get_min = |s: &[i32]| {
-            let mut min = i32::MAX;
-            for n in s {
-                if *n < min {
-                    min = *n;
-                }
-            }
-            min
+            s.iter().fold(i32::MAX, |min, num| match num.cmp(&min) {
+                std::cmp::Ordering::Less => *num,
+                _ => min,
+            })
         };
         dp[0] = triangle[0][0];
         for row in 1..triangle.len() {
