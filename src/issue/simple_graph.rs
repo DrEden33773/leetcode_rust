@@ -8,7 +8,6 @@ struct State {
     cost: usize,
     position: usize,
 }
-
 impl State {
     pub fn new(cost: usize, position: usize) -> Self {
         State { cost, position }
@@ -38,12 +37,10 @@ impl PartialOrd for State {
 }
 
 // Each node is represented as a `usize`, for a shorter implementation.
-
 pub struct Edge {
     node: usize,
     cost: usize,
 }
-
 impl Edge {
     pub fn new(node: usize, cost: usize) -> Self {
         Edge { node, cost }
