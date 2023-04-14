@@ -15,9 +15,11 @@ impl Solution {
         let (mut ans, mut ans_count) = (-1, 0);
         for (even, even_count) in even_table.iter() {
             if ans == -1 || *even_count > ans_count {
-                (ans, ans_count) = (*even, *even_count)
+                ans = *even;
+                ans_count = *even_count;
             } else if *even_count == ans_count && *even < ans {
-                (ans, ans_count) = (*even, *even_count)
+                ans = *even;
+                ans_count = *even_count;
             }
         }
         ans
