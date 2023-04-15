@@ -1,5 +1,5 @@
 pub mod binary_tree;
-pub mod dsu;
+pub mod disjoint_set;
 pub mod exercise_plan;
 pub mod graph;
 pub mod mat_chain_multiplication;
