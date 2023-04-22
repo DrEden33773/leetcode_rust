@@ -16,11 +16,11 @@ impl Solution {
                     num_of_root: n,
                 }
             }
-            fn get_root(&self, n: usize) -> usize {
-                match self.pa[n] == n {
-                    true => n,
-                    false => self.get_root(self.pa[n]),
+            fn get_root(&self, mut n: usize) -> usize {
+                while self.pa[n] != n {
+                    n = self.pa[n];
                 }
+                n
             }
             #[inline(always)]
             fn union(&mut self, m: usize, n: usize) {
