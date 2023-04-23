@@ -19,7 +19,7 @@ impl Solution {
             #[inline(always)]
             fn get_root(&self, mut n: usize) -> usize {
                 while self.pa[n] != n {
-                    n = self.pa[n];
+                    n = self.pa[n]
                 }
                 n
             }
