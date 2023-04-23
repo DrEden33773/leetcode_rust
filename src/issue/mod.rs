@@ -1,3 +1,4 @@
+pub mod dsf;
 pub mod binary_tree;
 pub mod disjoint_set;
 pub mod exercise_plan;
