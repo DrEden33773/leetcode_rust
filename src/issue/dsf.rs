@@ -5,6 +5,8 @@
 //! which allows us to merge two groups. Remember in the section on connected
 //! components we needed to quickly find out if a node was already part of some component.
 
+#![allow(dead_code)]
+
 use std::marker::PhantomData;
 
 /// A single node in the disjoit set forest
