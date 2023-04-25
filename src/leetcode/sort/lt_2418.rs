@@ -8,7 +8,7 @@ impl Solution {
             .into_iter()
             .zip(heights.into_iter())
             .collect::<Vec<_>>();
-        zipped.sort_unstable_by(|(_, height_1), (_, height_2)| height_2.cmp(height_1));
+        zipped.sort_by(|(_, h1), (_, h2)| h2.cmp(h1));
         zipped.into_iter().map(|(name, _)| name).collect()
     }
 }
