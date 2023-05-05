@@ -3,7 +3,7 @@
 pub struct Solution;
 
 impl Solution {
-    pub fn hardest_worker(n: i32, mut logs: Vec<Vec<i32>>) -> i32 {
+    pub fn hardest_worker(_n: i32, mut logs: Vec<Vec<i32>>) -> i32 {
         for i in (1..logs.len()).rev() {
             logs[i][1] -= logs[i - 1][1];
         }
