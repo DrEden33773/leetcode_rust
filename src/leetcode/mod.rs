@@ -1,3 +1,4 @@
+pub mod array;
 pub mod disjoint_set;
 pub mod back_trace;
 pub mod binary_search;
