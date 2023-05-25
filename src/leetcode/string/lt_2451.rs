@@ -5,6 +5,7 @@ pub struct Solution;
 use std::collections::HashMap;
 
 impl Solution {
+    #[inline]
     pub fn to_sub_vec_table(words: Vec<String>) -> Vec<(String, Vec<isize>)> {
         let mut table = vec![];
         for word in words {
@@ -17,11 +18,10 @@ impl Solution {
             }
             table.push((word, sub_vec));
         }
-        table
+        return table;
     }
-    pub fn get_count_sub_vec(
-        sub_vec_table: &Vec<(String, Vec<isize>)>,
-    ) -> HashMap<Vec<isize>, isize> {
+    #[inline]
+    pub fn count_sub_vec(sub_vec_table: &Vec<(String, Vec<isize>)>) -> HashMap<Vec<isize>, isize> {
         let mut count = HashMap::new();
         for (_, vec) in sub_vec_table {
             count
@@ -33,10 +33,10 @@ impl Solution {
     }
     pub fn odd_string(words: Vec<String>) -> String {
         let sub_vec_table = Solution::to_sub_vec_table(words);
-        let count_sub_vec = Solution::get_count_sub_vec(&sub_vec_table);
+        let count = Solution::count_sub_vec(&sub_vec_table);
         let mut ret = String::new();
         for (word, vec) in sub_vec_table {
-            if *count_sub_vec.get(&vec).unwrap() == 1 {
+            if *count.get(&vec).unwrap() == 1 {
                 ret = word;
                 break;
             }
