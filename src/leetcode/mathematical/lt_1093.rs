@@ -14,9 +14,8 @@ pub struct Solution;
 use std::ops::Add;
 
 impl Solution {
-    pub fn sample_stats(count: Vec<i32>) -> Vec<f64> {
-        /* [(value, times)] */
-        let vt_vec = count
+    pub fn stable_sample_stats(count: Vec<i32>) -> Vec<f64> {
+        let vt_vec /* [(value, times)] */ = count
             .iter()
             .enumerate()
             .filter(|(_, &times)| times > 0)
@@ -38,23 +37,72 @@ impl Solution {
             }
             curr_v
         }
-        let v_num: i64 = vt_vec
+        let num: i64 = vt_vec
             .iter()
             .map(|(_, times)| times.to_owned() as i64)
             .sum();
-        let v_sum: i64 = vt_vec
+        let sum: i64 = vt_vec
             .iter()
             .map(|(value, times)| value.to_owned() as i64 * times.to_owned() as i64)
             .sum();
         let minimum = vt_vec[0].0 as f64;
         let maximum = vt_vec[vt_vec.len() - 1].0 as f64;
-        let mean = v_sum as f64 / v_num as f64;
+        let mean = sum as f64 / num as f64;
         let mode = vt_vec.iter().max_by_key(|(_, times)| times).unwrap().0 as f64;
-        let median = if v_num % 2 == 0 {
-            get_nth(&vt_vec, v_num / 2 - 1).add(get_nth(&vt_vec, v_num / 2)) as f64 / 2 as f64
+        let median = if num % 2 == 0 {
+            get_nth(&vt_vec, num / 2 - 1).add(get_nth(&vt_vec, num / 2)) as f64 / 2 as f64
         } else {
-            get_nth(&vt_vec, v_num / 2) as f64
+            get_nth(&vt_vec, num / 2) as f64
         };
+        vec![minimum, maximum, mean, median, mode]
+    }
+    pub fn sample_stats(count: Vec<i32>) -> Vec<f64> {
+        let minimum = count
+            .iter()
+            .position(|&times| times > 0)
+            .unwrap_or_default() as f64;
+        let maximum = count
+            .iter()
+            .rposition(|&times| times > 0)
+            .unwrap_or_default() as f64;
+        let sum = count
+            .iter()
+            .enumerate()
+            .map(|(v, &t)| v as i64 * t as i64)
+            .sum::<i64>();
+        let num = count
+            .iter()
+            .enumerate()
+            .map(|(_, &t)| t as i64)
+            .sum::<i64>();
+        let mean = sum as f64 / num as f64;
+        let mode = count
+            .iter()
+            .enumerate()
+            .max_by_key(|(_, &t)| t)
+            .map(|(v, _)| v)
+            .unwrap_or_default() as f64;
+        let left = {
+            let mut steps = (num + 1) / 2; // this could take
+            count
+                .iter()
+                .position(|&t| {
+                    steps -= t as i64;
+                    steps <= 0
+                })
+                .unwrap_or_default() as f64
+        };
+        let right = {
+            let mut steps = (num + 1) / 2;
+            count
+                .iter()
+                .rposition(|&t| {
+                    steps -= t as i64;
+                    steps <= 0
+                })
+                .unwrap_or_default() as f64
+        };
+        let median = (left + right) / 2 as f64;
         vec![minimum, maximum, mean, median, mode]
     }
 }
@@ -94,7 +142,10 @@ mod sample_stats {
             219995, 1503946, 2311246, 2618861, 1497325, 3758762, 2115273, 3238053, 2419849,
             2545790,
         ];
-        let res = Solution::sample_stats(count);
-        eprintln!("{:?}", res);
+        let original = Solution::stable_sample_stats(count.clone());
+        let improved = Solution::sample_stats(count);
+        assert_eq!(original, improved);
+        eprintln!("original => {:?}", original);
+        eprintln!("improved => {:?}", improved);
     }
 }

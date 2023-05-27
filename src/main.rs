@@ -10,6 +10,7 @@ fn i64_to_f64_test() {
 }
 
 fn show_info() {
+    println!();
     println!("Please use `test` instead of running in `main func`...");
     println!()
 }
