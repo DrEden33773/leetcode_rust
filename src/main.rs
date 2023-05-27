@@ -4,7 +4,8 @@ mod luogu;
 
 fn i64_to_f64_test() {
     println!("{}", i64::MAX);
-    println!("{}", f64::MAX_EXP);
+    println!("2^{}", f64::MAX_EXP);
+    assert!(f64::MAX >= i64::MAX as f64);
     println!()
 }
 

@@ -1,5 +1,14 @@
 #![allow(dead_code)]
 
+fn gen_vt_vec(count: Vec<i32>) -> Vec<(i32, i32)> {
+    count
+        .iter()
+        .enumerate()
+        .filter(|(_, &times)| times > 0)
+        .map(|(value, &times)| (value as i32, times))
+        .collect::<Vec<_>>()
+}
+
 pub struct Solution;
 
 use std::ops::Add;
