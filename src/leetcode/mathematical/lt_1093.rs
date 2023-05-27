@@ -9,6 +9,14 @@ fn gen_vt_vec(count: Vec<i32>) -> Vec<(i32, i32)> {
         .collect::<Vec<_>>()
 }
 
+fn get_medium_of(s: &mut [i64]) -> f64 {
+    s.sort();
+    let dist = (s.len() + 1) / 2 - 1;
+    let left = *s.iter().nth(dist).unwrap() as f64;
+    let right = *s.iter().nth_back(dist).unwrap() as f64;
+    (left + right) / 2.0
+}
+
 pub struct Solution;
 
 use std::ops::Add;

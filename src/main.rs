@@ -1,3 +1,5 @@
+#![feature(iter_advance_by)]
+
 mod issue;
 mod leetcode;
 mod luogu;
