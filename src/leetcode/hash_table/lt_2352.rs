@@ -13,7 +13,7 @@ impl Solution {
                 cnt
             });
         (0..grid.len()).fold(0, |ans, col| {
-            let curr_col = (0..grid.len())
+            let curr_col: Vec<i32> = (0..grid.len())
                 .map(|row| grid[row][col])
                 .collect::<Vec<_>>();
             ans + *cnt.entry(curr_col).or_insert(0)
