@@ -8,7 +8,7 @@ impl Solution {
     pub fn contains_duplicate(nums: Vec<i32>) -> bool {
         let mut set = HashSet::with_capacity(nums.len());
         for num in nums {
-            if let Some(_) = set.get(&num) {
+            if set.get(&num).is_some() {
                 return true;
             }
             set.insert(num);

@@ -4,11 +4,11 @@ pub struct Solution;
 
 impl Solution {
     pub fn minimum_cost(n: i32, mut connections: Vec<Vec<i32>>) -> i32 {
-        struct DSU {
+        struct Dsu {
             pa: Vec<usize>,
             num_of_root: usize,
         }
-        impl DSU {
+        impl Dsu {
             #[inline(always)]
             fn new(n: usize) -> Self {
                 Self {
@@ -42,7 +42,7 @@ impl Solution {
                 self.num_of_root
             }
         }
-        let mut dsu = DSU::new(n as usize);
+        let mut dsu = Dsu::new(n as usize);
         let mut ans = 0;
         let mut picked = 0;
         connections.sort_unstable_by(|a, b| a[2].cmp(&b[2]));

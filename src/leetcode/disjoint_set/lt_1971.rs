@@ -18,7 +18,7 @@ impl Solution {
                 Self { pa }
             }
             fn find(&self, to_find: &i32) -> i32 {
-                let parent = self.pa.get(&to_find).unwrap();
+                let parent = self.pa.get(to_find).unwrap();
                 if parent == to_find {
                     parent.to_owned()
                 } else {

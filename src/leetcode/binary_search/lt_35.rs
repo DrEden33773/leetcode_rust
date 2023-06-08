@@ -8,12 +8,10 @@ impl Solution {
         let mut r = nums.len();
         while l < r {
             let m = (l + r) / 2;
-            if target > nums[m] {
-                l = m + 1;
-            } else if target < nums[m] {
-                r = m;
-            } else {
-                return m as i32;
+            match target.cmp(&nums[m]) {
+                std::cmp::Ordering::Greater => l = m + 1,
+                std::cmp::Ordering::Less => r = m,
+                std::cmp::Ordering::Equal => return m as i32,
             }
         }
         l as i32

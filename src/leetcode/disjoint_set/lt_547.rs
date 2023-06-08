@@ -4,11 +4,11 @@ pub struct Solution;
 
 impl Solution {
     pub fn find_circle_num(is_connected: Vec<Vec<i32>>) -> i32 {
-        struct DSU {
+        struct Dsu {
             pa: Vec<usize>,
             num_of_root: usize,
         }
-        impl DSU {
+        impl Dsu {
             #[inline(always)]
             fn new(n: usize) -> Self {
                 Self {
@@ -42,7 +42,7 @@ impl Solution {
                 self.num_of_root
             }
         }
-        let mut dsu = DSU::new(is_connected.len());
+        let mut dsu = Dsu::new(is_connected.len());
         for i in 0..is_connected.len() {
             for j in (i + 1)..is_connected.len() {
                 if is_connected[i][j] != 0 {

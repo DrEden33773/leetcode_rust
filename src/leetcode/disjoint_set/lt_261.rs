@@ -4,11 +4,11 @@ pub struct Solution;
 
 impl Solution {
     pub fn valid_tree(n: i32, edges: Vec<Vec<i32>>) -> bool {
-        struct DSU {
+        struct Dsu {
             pa: Vec<usize>,
             num_of_root: usize,
         }
-        impl DSU {
+        impl Dsu {
             #[inline(always)]
             fn new(n: usize) -> Self {
                 Self {
@@ -42,7 +42,7 @@ impl Solution {
                 self.num_of_root
             }
         }
-        let mut dsu = DSU::new(n as usize);
+        let mut dsu = Dsu::new(n as usize);
         for edge in edges {
             let from = edge[0] as usize;
             let to = edge[1] as usize;

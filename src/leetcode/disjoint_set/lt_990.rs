@@ -19,10 +19,10 @@ impl Solution {
         [assignments, evaluations].concat()
     }
     pub fn equations_possible(equations: Vec<String>) -> bool {
-        struct DSU {
+        struct Dsu {
             parent: HashMap<char, char>,
         }
-        impl DSU {
+        impl Dsu {
             #[inline]
             fn init() -> Self {
                 Self {
@@ -53,7 +53,7 @@ impl Solution {
             }
         }
         let equations = Solution::resort_equations(equations);
-        let mut dsu = DSU::init();
+        let mut dsu = Dsu::init();
         for equation in equations {
             let left = equation.chars().nth(0).unwrap();
             let right = equation.chars().nth(3).unwrap();

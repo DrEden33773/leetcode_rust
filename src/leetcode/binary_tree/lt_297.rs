@@ -37,7 +37,7 @@ impl Codec {
     fn serialize(&self, root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Option<i32>> {
         use std::collections::VecDeque;
 
-        if let None = root {
+        if root.is_none() {
             return vec![];
         }
 

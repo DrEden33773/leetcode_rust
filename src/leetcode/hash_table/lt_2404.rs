@@ -13,13 +13,10 @@ impl Solution {
             table
         });
         let (mut ans, mut ans_count) = (-1, 0);
-        for (even, even_count) in even_table.iter() {
-            if ans == -1 || *even_count > ans_count {
+        for (even, cnt) in even_table.iter() {
+            if ans == -1 || *cnt > ans_count || *cnt == ans_count && *even < ans {
                 ans = *even;
-                ans_count = *even_count;
-            } else if *even_count == ans_count && *even < ans {
-                ans = *even;
-                ans_count = *even_count;
+                ans_count = *cnt;
             }
         }
         ans
