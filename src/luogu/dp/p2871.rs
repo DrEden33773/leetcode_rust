@@ -22,16 +22,14 @@ pub fn exec_interface() {
     /* buffer */
     let mut buf: Vec<&str>;
     /* var */
-    let mut num = 0usize;
-    let mut capacity = 0usize;
     let mut weights = Vec::<usize>::new();
     let mut values = Vec::<usize>::new();
     /* read proc */
     let mut str = String::new();
     io::stdin().read_line(&mut str).unwrap();
     buf = str.trim().split(' ').collect();
-    num = buf[0].parse().unwrap();
-    capacity = buf[1].parse().unwrap();
+    let num = buf[0].parse().unwrap();
+    let capacity = buf[1].parse().unwrap();
     for _ in 0..num {
         let mut str = String::new();
         io::stdin().read_line(&mut str).unwrap();
@@ -45,7 +43,7 @@ pub fn exec_interface() {
 }
 
 #[cfg(test)]
-mod p2871 {
+mod the_p2871 {
     use super::*;
 
     #[test]

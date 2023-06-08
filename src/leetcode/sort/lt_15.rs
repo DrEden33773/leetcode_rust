@@ -82,14 +82,14 @@ impl Solution {
                     continue;
                 }
                 let sum = nums[i] + nums[left] + nums[right];
-                if sum == 0 {
-                    res.push(vec![nums[i], nums[left], nums[right]]);
-                    left += 1;
-                    right -= 1;
-                } else if sum < 0 {
-                    left += 1;
-                } else {
-                    right -= 1;
+                match sum.cmp(&0) {
+                    std::cmp::Ordering::Less => left += 1,
+                    std::cmp::Ordering::Equal => {
+                        res.push(vec![nums[i], nums[left], nums[right]]);
+                        left += 1;
+                        right -= 1;
+                    }
+                    std::cmp::Ordering::Greater => right -= 1,
                 }
             }
         }

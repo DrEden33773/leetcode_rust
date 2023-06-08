@@ -46,6 +46,6 @@ mod hardest_worker {
     fn it_works() {
         let n = 26;
         let logs = vec![vec![1, 1], vec![3, 7], vec![2, 12], vec![7, 17]];
-        let res = Solution::hardest_worker(n, logs);
+        let _res = Solution::hardest_worker(n, logs);
     }
 }

@@ -1,4 +1,5 @@
 #![feature(iter_advance_by)]
+#![feature(exclusive_range_pattern)]
 
 mod issue;
 mod leetcode;

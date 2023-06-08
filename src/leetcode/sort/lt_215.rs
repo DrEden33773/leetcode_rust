@@ -6,7 +6,7 @@ use rand::{self, Rng};
 
 impl Solution {
     #[inline]
-    fn partition(v: &mut Vec<i32>, l: usize, r: usize) -> usize {
+    fn partition(v: &mut [i32], l: usize, r: usize) -> usize {
         let last = v[r - 1];
         let mut pivot = l as i32 - 1;
         for i in l..r {
@@ -18,7 +18,7 @@ impl Solution {
         pivot as usize
     }
     #[inline]
-    fn random_partition(v: &mut Vec<i32>, l: usize, r: usize) -> usize {
+    fn random_partition(v: &mut [i32], l: usize, r: usize) -> usize {
         let pivot = rand::thread_rng().gen_range(l..r);
         v.swap(pivot, r - 1);
         Solution::partition(v, l, r)
@@ -26,12 +26,10 @@ impl Solution {
     #[inline]
     fn quick_select(v: &mut Vec<i32>, l: usize, r: usize, index: usize) -> i32 {
         let p = Solution::random_partition(v, l, r);
-        if p == index {
-            v[p]
-        } else if p < index {
-            Solution::quick_select(v, p + 1, r, index)
-        } else {
-            Solution::quick_select(v, l, p, index)
+        match p.cmp(&index) {
+            std::cmp::Ordering::Less => Solution::quick_select(v, p + 1, r, index),
+            std::cmp::Ordering::Equal => v[p],
+            std::cmp::Ordering::Greater => Solution::quick_select(v, l, p, index),
         }
     }
     pub fn find_kth_largest(mut nums: Vec<i32>, k: i32) -> i32 {
