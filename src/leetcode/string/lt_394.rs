@@ -31,7 +31,7 @@ impl Solution {
                 ptr += 1;
             } else {
                 let mut sub = vec![];
-                while *stack.last().unwrap() != "[".to_string() {
+                while stack.last().unwrap().as_str() != "[" {
                     sub.push(stack.pop().unwrap());
                 }
                 sub.reverse();

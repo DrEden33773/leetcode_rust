@@ -17,7 +17,7 @@ impl Solution {
             return;
         }
         for &adj in &graph[start as usize] {
-            if visited[adj as usize] == true {
+            if visited[adj as usize] {
                 continue;
             }
             Self::dfs(adj, graph, visited, temp, res);

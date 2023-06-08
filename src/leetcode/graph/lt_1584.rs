@@ -18,11 +18,11 @@ impl Solution {
         res
     }
     pub fn min_cost_connect_points(points: Vec<Vec<i32>>) -> i32 {
-        struct DSU {
+        struct Dsu {
             pa: Vec<usize>,
             num_of_root: usize,
         }
-        impl DSU {
+        impl Dsu {
             #[inline(always)]
             fn new(n: usize) -> Self {
                 Self {
@@ -58,7 +58,7 @@ impl Solution {
         }
         let mut edges = Solution::generate_edges(&points);
         edges.sort_unstable_by_key(|(_, _, weight)| *weight);
-        let mut dsu = DSU::new(points.len());
+        let mut dsu = Dsu::new(points.len());
         let mut ans = 0;
         let mut picked = 0;
         for (from, to, weight) in edges {

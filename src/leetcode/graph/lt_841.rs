@@ -6,7 +6,7 @@ use std::collections::{HashSet, VecDeque};
 
 impl Solution {
     #[inline(always)]
-    fn bfs_from_vertex(v: i32, adj_table: &Vec<Vec<i32>>, visited: &mut HashSet<i32>) {
+    fn bfs_from_vertex(v: i32, adj_table: &[Vec<i32>], visited: &mut HashSet<i32>) {
         let mut q = VecDeque::new();
         q.push_back(v);
         while !q.is_empty() {

@@ -33,7 +33,7 @@ impl Solution {
         }
         impl Ord for Info {
             fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-                self.partial_cmp(&other).unwrap()
+                self.partial_cmp(other).unwrap()
             }
         }
         impl Default for Info {

@@ -11,14 +11,11 @@ impl Solution {
         for word in words {
             let mut sub_vec = vec![];
             for i in 1..word.len() {
-                sub_vec.push(
-                    word.bytes().nth(i).unwrap() as isize
-                        - word.bytes().nth(i - 1).unwrap() as isize,
-                )
+                sub_vec.push(word.as_bytes()[i] as isize - word.as_bytes()[i - 1] as isize)
             }
             table.push((word, sub_vec));
         }
-        return table;
+        table
     }
     #[inline]
     pub fn count_sub_vec(sub_vec_table: &Vec<(String, Vec<isize>)>) -> HashMap<Vec<isize>, isize> {
