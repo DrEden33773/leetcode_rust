@@ -90,7 +90,6 @@ mod z_string_convert {
     use super::*;
 
     #[test]
-    #[ignore = "I don't know why..."]
     fn it_works() {
         let str = Solution::convert("PAYPALISHIRING".to_string(), 3);
         assert_eq!(&str, "PAHNAPLSIIGYIR");
