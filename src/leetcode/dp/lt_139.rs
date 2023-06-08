@@ -32,7 +32,7 @@ impl Solution {
     ///
     /// **Therefore:** `dp[i] = dp[j] && check(s[j..i])`
     pub fn word_break(s: String, mut word_dict: Vec<String>) -> bool {
-        word_dict.sort_unstable_by(|a, b| b.len().cmp(&a.len()));
+        word_dict.sort_unstable_by_key(|b| std::cmp::Reverse(b.len()));
         let dict = word_dict.into_iter().fold(HashSet::new(), |acm, word| {
             let mut acm = acm;
             acm.insert(word);
