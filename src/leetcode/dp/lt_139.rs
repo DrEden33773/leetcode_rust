@@ -14,7 +14,7 @@ impl Trie {
             is_end: false,
         }
     }
-    fn insert(&mut self, word: &String) {
+    fn insert(&mut self, word: &str) {
         let mut node = self;
         for c in word.bytes() {
             node = node.children.entry(c).or_insert(Trie::new());

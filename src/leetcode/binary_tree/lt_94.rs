@@ -28,7 +28,7 @@ impl Solution {
         let mut stack = vec![];
         let mut node = root;
 
-        while node.is_some() || stack.len() > 0 {
+        while node.is_some() || !stack.is_empty() {
             while let Some(curr) = node {
                 node = curr.borrow_mut().left.take();
                 stack.push(curr);
