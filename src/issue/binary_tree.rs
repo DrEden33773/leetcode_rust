@@ -300,7 +300,6 @@ mod the_binary_tree {
     fn clone_tree_test() {
         let seq = vec![Some(1), Some(2), Some(3), Some(4), None, Some(6), Some(7)];
         let tree = BinaryTree::from_level_order(seq);
-        let cloned_tree = tree.clone();
-        assert_eq!(tree, cloned_tree);
+        assert_eq!(tree, tree.clone());
     }
 }
