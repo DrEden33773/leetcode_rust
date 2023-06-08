@@ -9,12 +9,12 @@ impl Solution {
     #[allow(dead_code)]
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut table = HashMap::new();
-        for curr_index in 0..nums.len() {
-            let another = target - nums[curr_index];
+        for (curr_index, &num) in nums.iter().enumerate() {
+            let another = target - num;
             if let Some(another_index) = table.get(&another) {
                 return vec![curr_index as i32, *another_index as i32];
             }
-            table.insert(nums[curr_index], curr_index);
+            table.insert(num, curr_index);
         }
         vec![]
     }

@@ -16,7 +16,7 @@ pub fn safe_equal(lhs: &String, rhs: &String) -> bool {
     mask == 0
 }
 
-pub fn equal(lhs: &String, rhs: &String) -> bool {
+pub fn equal(lhs: &str, rhs: &str) -> bool {
     for (l, r) in lhs.chars().zip(rhs.chars()) {
         if l != r {
             return false;
@@ -118,7 +118,7 @@ fn crack_first_pos_with_equal() {
         cracked.pop().unwrap();
     }
     vec.sort_by(|l, r| r.cmp(l));
-    eprintln!("password[0] => {}", password.chars().nth(0).unwrap());
+    eprintln!("password[0] => {}", password.chars().next().unwrap());
     eprintln!();
     for CharTimePair { c, t } in vec {
         eprintln!("{} => {}s", c, t.as_secs_f64())
@@ -126,7 +126,7 @@ fn crack_first_pos_with_equal() {
 }
 
 #[cfg(test)]
-mod safe_str_equal {
+mod impl_for_safe_str_equal {
     use super::*;
 
     #[test]
@@ -158,10 +158,10 @@ mod safe_str_equal {
             strict: false,
         };
         let a = pg.generate_one().unwrap();
-        assert_eq!(safe_equal(&a, &a), true);
+        assert!(safe_equal(&a, &a));
         let l = "llll".to_owned();
         let r = "rrrr".to_owned();
-        assert_eq!(safe_equal(&l, &r), false);
+        assert!(!safe_equal(&l, &r));
     }
 
     #[test]

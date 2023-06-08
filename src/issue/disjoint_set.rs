@@ -33,4 +33,4 @@ impl<T: Hash + Eq + Clone> DisjointSet<T> {
 }
 
 #[cfg(test)]
-mod disjoint_set {}
+mod the_disjoint_set {}

@@ -41,25 +41,19 @@ fn get_optimal_parens(s: &Vec<Vec<usize>>) -> String {
 }
 
 pub fn get_mat_chain_solution(mats: &[(usize, usize)]) -> (usize, String) {
-    assert!(mats.len() >= 1);
+    assert!(!mats.is_empty());
     let (dp, s) = get_tables(mats);
     (dp[0][mats.len() - 1], get_optimal_parens(&s))
 }
 
 #[cfg(test)]
-mod mat_chain_multiplication {
+mod the_mat_chain_multiplication {
     use super::*;
 
     #[test]
     fn it_works() {
-        let (times, str) = get_mat_chain_solution(&vec![
-            (30, 35),
-            (35, 15),
-            (15, 5),
-            (5, 10),
-            (10, 20),
-            (20, 25),
-        ]);
+        let (times, str) =
+            get_mat_chain_solution(&[(30, 35), (35, 15), (15, 5), (5, 10), (10, 20), (20, 25)]);
         eprintln!("Minium multiply times: {}\n", times);
         eprintln!("Optimal parens: {}\n", str);
     }

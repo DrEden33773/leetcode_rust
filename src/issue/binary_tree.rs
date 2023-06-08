@@ -35,10 +35,10 @@ impl<T: Clone> BinaryTree<T> {
     }
 
     fn pre_order_builder(&mut self, seq: &Vec<Option<T>>) -> Option<Rc<RefCell<TreeNode<T>>>> {
-        if !(self.cnt < seq.len()) {
+        if self.cnt >= seq.len() {
             return None;
         }
-        if let None = seq[self.cnt] {
+        if seq[self.cnt].is_none() {
             self.cnt += 1;
             return None;
         }
@@ -126,7 +126,7 @@ impl<T: Clone> BinaryTree<T> {
             node: Option<Rc<RefCell<TreeNode<T>>>>,
             seq: &mut Vec<Option<T>>,
         ) {
-            if let Some(curr) = node.clone() {
+            if let Some(curr) = node {
                 seq.push(Some(curr.borrow().val.clone()));
                 recursive_func(curr.borrow().left.clone(), seq);
                 recursive_func(curr.borrow().right.clone(), seq);
@@ -168,7 +168,7 @@ impl<T: PartialEq + Clone> PartialEq for BinaryTree<T> {
 #[allow(dead_code)]
 impl<T: Clone> BinaryTree<T> {
     pub fn get_height(&self) -> usize {
-        if let None = self.root.as_ref() {
+        if self.root.as_ref().is_none() {
             return 0;
         }
         let mut height = 0;
@@ -196,7 +196,7 @@ impl<T: Clone> BinaryTree<T> {
 #[allow(dead_code)]
 impl<T: Display + Clone> BinaryTree<T> {
     pub fn print_in_layer(&self) {
-        if let None = self.root.as_ref() {
+        if self.root.as_ref().is_none() {
             println!("Empty...");
             return;
         }
@@ -222,7 +222,7 @@ impl<T: Display + Clone> BinaryTree<T> {
 }
 
 #[cfg(test)]
-mod binary_tree {
+mod the_binary_tree {
     use super::*;
 
     #[test]
@@ -255,7 +255,7 @@ mod binary_tree {
             None,
             Some(7),
         ];
-        let tree = BinaryTree::from_pre_order(seq.clone());
+        let tree = BinaryTree::from_pre_order(seq);
         let tree_b = BinaryTree::from_pre_order(seq_b);
         assert_eq!(tree, tree_b);
         let iteratively_serialized = tree.to_pre_order_seq_iterative();
@@ -279,7 +279,7 @@ mod binary_tree {
             None,
             None,
         ];
-        let tree = BinaryTree::from_level_order(seq.clone());
+        let tree = BinaryTree::from_level_order(seq);
         let tree_b = BinaryTree::from_level_order(seq_b);
         assert_eq!(tree, tree_b);
         let serialized = tree.to_level_order_seq();
@@ -290,7 +290,7 @@ mod binary_tree {
     #[test]
     fn get_height_test() {
         let seq = vec![Some(1), Some(2), Some(3), Some(4), None, Some(6), Some(7)];
-        let tree = BinaryTree::from_level_order(seq.clone());
+        let tree = BinaryTree::from_level_order(seq);
         let expected_height = 3;
         let calculated_height = tree.get_height();
         assert_eq!(expected_height, calculated_height);

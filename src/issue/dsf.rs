@@ -54,15 +54,15 @@ impl<T: PartialEq> DSFNode<T> {
 /// Only the nodes in a single tree are linked together.
 /// A user interacts with the forest using the nodes
 #[derive(Debug)]
-pub struct DSF<T: PartialEq> {
+pub struct Dsf<T: PartialEq> {
     /// A collection of all the nodes in the tree
     forest: Vec<DSFNode<T>>,
 }
 
-impl<T: PartialEq> DSF<T> {
+impl<T: PartialEq> Dsf<T> {
     /// Creates a new disjoint set forest structure with no trees in it
     pub fn new() -> Self {
-        DSF { forest: Vec::new() }
+        Dsf { forest: Vec::new() }
     }
 
     /// Adds a new node into the disjoint set forest.

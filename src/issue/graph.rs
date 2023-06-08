@@ -71,7 +71,7 @@ impl<T: Hash + Eq + Clone> Graph<T> {
 /// Vex Operations
 impl<T: Hash + Eq + Clone> Graph<T> {
     pub fn add_vex(&mut self, vex: &T) -> Result<(), ErrType<T>> {
-        if let Some(_) = self.edges_from.get(vex) {
+        if self.edges_from.get(vex).is_some() {
             return Err(ErrType::HasVex(vex.to_owned()));
         }
 
@@ -82,7 +82,7 @@ impl<T: Hash + Eq + Clone> Graph<T> {
         Ok(())
     }
     pub fn del_vex(&mut self, vex: &T) -> Result<(), ErrType<T>> {
-        if let None = self.edges_from.get(vex) {
+        if self.edges_from.get(vex).is_none() {
             return Err(ErrType::NoVex(vex.to_owned()));
         }
         let mut deleted_edge_num = 0;
@@ -111,15 +111,15 @@ impl<T: Hash + Eq + Clone> Graph<T> {
 /// Edge Operations
 impl<T: Hash + Eq + Clone> Graph<T> {
     pub fn add_edge(&mut self, start: &T, goal: &T, cost: usize) -> Result<(), ErrType<T>> {
-        if let None = self.edges_from.get(start) {
+        if self.edges_from.get(start).is_none() {
             return Err(ErrType::NoVex(start.to_owned()));
         }
-        if let None = self.edges_from.get(goal) {
+        if self.edges_from.get(goal).is_none() {
             return Err(ErrType::NoVex(goal.to_owned()));
         }
-        if let Some(_) = self.edges_from[start]
+        if self.edges_from[start]
             .iter()
-            .find(|edge| &edge.node == goal && edge.cost == cost)
+            .any(|edge| &edge.node == goal && edge.cost == cost)
         {
             return Err(ErrType::HasEdgeWithCost(
                 start.to_owned(),
@@ -148,10 +148,10 @@ impl<T: Hash + Eq + Clone> Graph<T> {
         goal: &T,
         cost: usize,
     ) -> Result<(), ErrType<T>> {
-        if let None = self.edges_from.get(start) {
+        if self.edges_from.get(start).is_none() {
             return Err(ErrType::NoVex(start.to_owned()));
         }
-        if let None = self.edges_from.get(goal) {
+        if self.edges_from.get(goal).is_none() {
             return Err(ErrType::NoVex(goal.to_owned()));
         }
 
@@ -186,10 +186,10 @@ impl<T: Hash + Eq + Clone> Graph<T> {
         Ok(())
     }
     pub fn del_edge_all(&mut self, start: &T, goal: &T) -> Result<(), ErrType<T>> {
-        if let None = self.edges_from.get(start) {
+        if self.edges_from.get(start).is_none() {
             return Err(ErrType::NoVex(start.to_owned()));
         }
-        if let None = self.edges_from.get(goal) {
+        if self.edges_from.get(goal).is_none() {
             return Err(ErrType::NoVex(goal.to_owned()));
         }
         let mut deleted_edge_num = 0;
@@ -234,8 +234,8 @@ impl<T: Hash + Eq + Clone> Graph<T> {
         let mut graph = Self::default();
         let vertices = src
             .edges_from
-            .iter()
-            .map(|(v, _)| v.to_owned())
+            .keys()
+            .map(|v| v.to_owned())
             .collect::<Vec<T>>();
         vertices.iter().for_each(|v| {
             graph.add_vex(v).unwrap_or_default();
@@ -299,7 +299,7 @@ impl<T: Hash + Eq + Clone> Graph<T> {
 }
 
 #[cfg(test)]
-mod graph {
+mod self_impl_graph {
     use super::*;
 
     #[test]
@@ -318,10 +318,10 @@ mod graph {
     #[test]
     fn test_add_vex() {
         let mut graph = Graph::<i32>::default();
-        assert_eq!(graph.add_vex(&3).is_ok(), true);
-        assert_eq!(graph.add_vex(&3).is_ok(), false);
-        assert_eq!(graph.add_vex(&4).is_ok(), true);
-        assert_eq!(graph.add_vex(&4).is_ok(), false);
+        assert!(graph.add_vex(&3).is_ok());
+        assert!(graph.add_vex(&3).is_err());
+        assert!(graph.add_vex(&4).is_ok());
+        assert!(graph.add_vex(&4).is_err());
     }
 
     #[test]
@@ -332,10 +332,10 @@ mod graph {
             vec![('a', 'b', 1), ('b', 'd', 2), ('c', 'a', 3), ('a', 'b', 2)];
         // 1. normally add vex and edge
         for vex in vertices.iter() {
-            assert_eq!(graph.add_vex(vex).is_ok(), true);
+            assert!(graph.add_vex(vex).is_ok());
         }
         for (start, goal, cost) in edges.iter() {
-            assert_eq!(graph.add_edge(start, goal, *cost).is_ok(), true);
+            assert!(graph.add_edge(start, goal, *cost).is_ok());
         }
         // 2. check size
         assert_eq!(graph.vertex_num(), 4);
@@ -376,10 +376,10 @@ mod graph {
         assert_eq!(graph.vertex_num(), 4);
         assert_eq!(graph.edge_num(), 6);
         // 1. normally remove an edge
-        assert_eq!(graph.del_edge_with_cost(&'a', &'b', 3).is_ok(), true);
+        assert!(graph.del_edge_with_cost(&'a', &'b', 3).is_ok());
         assert_eq!(graph.edge_num(), 5);
         // 2. remove an edge with non_existed vex
-        assert_eq!(graph.del_edge_with_cost(&'a', &'f', 3).is_ok(), false);
+        assert!(graph.del_edge_with_cost(&'a', &'f', 3).is_err());
         assert_eq!(
             graph.del_edge_with_cost(&'a', &'f', 3).unwrap_err(),
             ErrType::NoVex('f')
@@ -394,7 +394,7 @@ mod graph {
             ErrType::NoEdgeWithCost('a', 'b', 3)
         );
         // 4. remove all edge between
-        assert_eq!(graph.del_edge_all(&'a', &'b').is_ok(), true);
+        assert!(graph.del_edge_all(&'a', &'b').is_ok());
         assert_eq!(graph.edge_num(), 2);
         // 5. remove an edge with no way between two existed vertices
         assert_eq!(

@@ -14,7 +14,7 @@ impl Solution {
                 appeared.insert(*num);
                 if_unique
             })
-            .map(|&num| num)
+            .copied()
             .collect::<Vec<_>>();
         let len = unique.len();
         nums.clear();
