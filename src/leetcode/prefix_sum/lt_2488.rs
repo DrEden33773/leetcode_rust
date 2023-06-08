@@ -55,7 +55,7 @@ mod count_subarrays {
     }
     fn case_3() {
         let res = Solution::count_subarrays(vec![6, 5, 3, 4, 1, 2], 1);
-        assert_eq!(res, 0);
+        assert_eq!(res, /* 0 */ 3);
     }
     #[test]
     fn it_works() {
