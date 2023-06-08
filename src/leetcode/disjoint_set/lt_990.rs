@@ -55,7 +55,8 @@ impl Solution {
         let equations = Solution::resort_equations(equations);
         let mut dsu = Dsu::init();
         for equation in equations {
-            let left = equation.chars().nth(0).unwrap();
+            /* chars.next() == chars.nth(0) */
+            let left = equation.chars().next().unwrap();
             let right = equation.chars().nth(3).unwrap();
             let tag = equation.chars().nth(1).unwrap();
             if tag == '=' {

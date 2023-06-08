@@ -27,7 +27,7 @@ impl Solution {
             }
             res
         };
-        (0..=n).map(|n| brian_kernighan(n)).collect()
+        (0..=n).map(brian_kernighan).collect()
     }
 
     pub fn dp_highest_bit_count_bits(n: i32) -> Vec<i32> {

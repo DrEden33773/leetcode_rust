@@ -8,7 +8,7 @@ impl Solution {
         let matched = s
             .chars()
             .filter(|x| {
-                while let Some(y) = iter.next() {
+                for y in iter.by_ref() {
                     if x == &y {
                         return true;
                     }

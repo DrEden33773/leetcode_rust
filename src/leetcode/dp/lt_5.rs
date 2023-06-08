@@ -7,9 +7,9 @@ impl Solution {
         let s = s.as_bytes();
         let len = s.len();
         let mut dp = vec![vec![false; len]; len];
-        for i in 0..len {
+        (0..s.len()).for_each(|i| {
             dp[i][i] = true;
-        }
+        });
         for l in 0..len - 1 {
             let r = l + 1;
             dp[l][r] = s[l] == s[r];
@@ -21,14 +21,14 @@ impl Solution {
             }
         }
         let (mut left, mut right) = (0, 0);
-        for l in 0..len {
+        (0..len).for_each(|l| {
             for r in l..len {
                 if r - l > right - left && dp[l][r] {
                     right = r;
                     left = l;
                 }
             }
-        }
+        });
         String::from_utf8_lossy(&s[left..=right]).into()
     }
 

@@ -11,12 +11,12 @@ impl Solution {
         dp.last().unwrap().to_owned()
     }
     pub fn climb_stairs_no_arr(n: i32) -> i32 {
-        // prev := f(0), curr := f(1), next := f(2)
-        let (mut prev, mut curr, mut next) = (1, 1, 2);
+        // _prev := f(0), curr := f(1), next := f(2)
+        let (mut _prev, mut curr, mut next) = (1, 1, 2);
         for _ in 2..=n {
-            prev = curr;
+            _prev = curr;
             curr = next;
-            next = prev + curr;
+            next = _prev + curr;
         }
         curr
     }

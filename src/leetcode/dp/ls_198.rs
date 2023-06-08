@@ -13,11 +13,11 @@ impl Solution {
         }
         let mut prev = nums[0];
         let mut curr = max(nums[0], nums[1]);
-        for i in 2..nums.len() {
+        (2..nums.len()).for_each(|i| {
             let original = curr;
             curr = max(curr, prev + nums[i]);
             prev = original;
-        }
+        });
         curr
     }
 }

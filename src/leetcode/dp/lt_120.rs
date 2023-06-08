@@ -18,7 +18,7 @@ impl Solution {
             for col in (1..row).rev() {
                 dp[col] = dp[col].min(dp[col - 1]) + triangle[row][col];
             }
-            dp[0] = dp[0] + triangle[row][0]
+            dp[0] += triangle[row][0]
         }
         get_min(&dp)
     }

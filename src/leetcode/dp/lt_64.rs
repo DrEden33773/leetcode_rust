@@ -26,7 +26,7 @@ impl Solution {
                 match (row, col) {
                     (0, 0) => dp[col + 1] = grid[row][col],
                     (0, _) => dp[col + 1] = grid[row][col] + dp[col],
-                    (_, 0) => dp[col + 1] = grid[row][col] + dp[col + 1],
+                    (_, 0) => dp[col + 1] += grid[row][col],
                     (_, _) => dp[col + 1] = grid[row][col] + dp[col].min(dp[col + 1]),
                 }
             }
