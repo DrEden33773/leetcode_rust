@@ -10,18 +10,10 @@ impl Solution {
         let mut r = num2.len() as i32 - 1;
         let mut carry = 0;
         while l >= 0 || r >= 0 || carry != 0 {
-            let x = if l >= 0 {
-                num1[l as usize] - '0' as u8
-            } else {
-                0
-            };
-            let y = if r >= 0 {
-                num2[r as usize] - '0' as u8
-            } else {
-                0
-            };
+            let x = if l >= 0 { num1[l as usize] - b'0' } else { 0 };
+            let y = if r >= 0 { num2[r as usize] - b'0' } else { 0 };
             let res = x + y + carry;
-            ans.push('0' as u8 + res % 10);
+            ans.push(b'0' + res % 10);
             carry = res / 10;
             l -= 1;
             r -= 1;

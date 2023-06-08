@@ -12,7 +12,7 @@ fn gen_vt_vec(count: Vec<i32>) -> Vec<(i32, i32)> {
 fn get_medium_of(s: &mut [i64]) -> f64 {
     s.sort();
     let dist = (s.len() + 1) / 2 - 1;
-    let left = *s.iter().nth(dist).unwrap() as f64;
+    let left = *s.get(dist).unwrap() as f64;
     let right = *s.iter().nth_back(dist).unwrap() as f64;
     (left + right) / 2.0
 }
@@ -30,7 +30,7 @@ impl Solution {
             .map(|(value, &times)| (value as i32, times))
             .collect::<Vec<_>>();
         /// Get `nth(start from 0)` element in `vt_vec`
-        fn get_nth(vt_vec: &Vec<(i32, i32)>, nth: i64) -> i32 {
+        fn get_nth(vt_vec: &[(i32, i32)], nth: i64) -> i32 {
             let (mut curr_v, mut curr_t) = vt_vec[0];
             let mut i = 0;
             let mut n = 0;
@@ -58,7 +58,7 @@ impl Solution {
         let mean = sum as f64 / num as f64;
         let mode = vt_vec.iter().max_by_key(|(_, times)| times).unwrap().0 as f64;
         let median = if num % 2 == 0 {
-            get_nth(&vt_vec, num / 2 - 1).add(get_nth(&vt_vec, num / 2)) as f64 / 2 as f64
+            get_nth(&vt_vec, num / 2 - 1).add(get_nth(&vt_vec, num / 2)) as f64 / 2_f64
         } else {
             get_nth(&vt_vec, num / 2) as f64
         };
@@ -110,7 +110,7 @@ impl Solution {
                 })
                 .unwrap_or_default() as f64
         };
-        let median = (left + right) / 2 as f64;
+        let median = (left + right) / 2_f64;
         vec![minimum, maximum, mean, median, mode]
     }
 }

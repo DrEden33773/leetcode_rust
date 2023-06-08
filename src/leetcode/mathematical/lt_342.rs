@@ -15,7 +15,6 @@ impl Solution {
     pub fn is_power_of_four(n: i32) -> bool {
         let if_gt_zero = n > 0;
         let is_power_of_two = n & (n - 1) == 0 && if_gt_zero;
-        let is_power_of_four = is_power_of_two && n % 3 == 1;
-        is_power_of_four
+        is_power_of_two && n % 3 == 1
     }
 }

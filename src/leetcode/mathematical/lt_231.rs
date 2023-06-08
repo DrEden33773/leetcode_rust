@@ -11,7 +11,6 @@ impl Solution {
     /// Now, you can solve this issue
     #[allow(dead_code)]
     pub fn is_power_of_two(n: i32) -> bool {
-        let is_power_of_two = n > 0 && n & (n - 1) == 0;
-        is_power_of_two
+        n > 0 && n & (n - 1) == 0
     }
 }

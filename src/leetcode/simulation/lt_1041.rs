@@ -35,10 +35,6 @@ impl Solution {
                 _ => {}
             }
         }
-        if pos == (0, 0) || direction != (0, 1) {
-            true
-        } else {
-            false
-        }
+        pos == (0, 0) || direction != (0, 1)
     }
 }

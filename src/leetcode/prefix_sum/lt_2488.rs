@@ -7,12 +7,7 @@ use std::collections::HashMap;
 impl Solution {
     #[inline]
     fn find<T: Ord>(nums: &Vec<T>, target: &T) -> Option<usize> {
-        for i in 0..nums.len() {
-            if &nums[i] == target {
-                return Some(i);
-            }
-        }
-        None
+        (0..nums.len()).find(|&i| &nums[i] == target)
     }
     #[inline]
     fn sign<T: Ord>(num: &T, cmp: &T) -> i32 {
@@ -28,7 +23,7 @@ impl Solution {
         let mut counts: HashMap<i32, i32> = HashMap::new();
         counts.insert(0, 1);
         let mut sum = 0;
-        for i in 0..nums.len() {
+        (0..nums.len()).for_each(|i| {
             sum += Solution::sign(&nums[i], &k);
             if i < k_index {
                 *counts.entry(sum).or_insert(0) += 1;
@@ -37,7 +32,7 @@ impl Solution {
                 let prev1 = counts.get(&(sum - 1)).unwrap_or(&0).to_owned();
                 ans += prev0 + prev1;
             }
-        }
+        });
         ans
     }
 }

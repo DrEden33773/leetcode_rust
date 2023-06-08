@@ -10,10 +10,10 @@ impl Solution {
 
         // 1. calculate value of first window
         let mut min = 0;
-        for i in 0..k {
+        (0..k).for_each(|i| {
             let to_add = if blocks[i] == 'W' { 1 } else { 0 };
             min += to_add;
-        }
+        });
 
         // 2. start to update the window
         let mut new = min;

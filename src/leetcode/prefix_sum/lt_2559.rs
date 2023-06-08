@@ -8,7 +8,7 @@ impl Solution {
         let mut prefix_sum = vec![0; words.len()];
         for (i, e) in words.iter().enumerate() {
             let if_suit =
-                is_vowel(e.chars().nth(0).unwrap()) && is_vowel(e.chars().nth_back(0).unwrap());
+                is_vowel(e.chars().next().unwrap()) && is_vowel(e.chars().nth_back(0).unwrap());
             if i == 0 {
                 prefix_sum[0] = if_suit as i32
             } else {
