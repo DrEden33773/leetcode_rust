@@ -7,7 +7,6 @@ use std::collections::HashSet;
 impl Solution {
     fn dijkstra(mat: Vec<Vec<f64>>, src: usize) -> Vec<f64> {
         let num = mat.len();
-        let mut joined: HashSet<usize> = (src..(src + 1)).collect();
         let mut unjoined: HashSet<usize> = (0..num).filter(|&v| v != src).collect();
         let mut dist: Vec<f64> = (0..num).map(|v| mat[src][v]).collect();
         while !unjoined.is_empty() {
@@ -16,7 +15,6 @@ impl Solution {
                 .enumerate()
                 .min_by(|(_, d1), (_, d2)| d1.partial_cmp(d2).unwrap())
                 .unwrap();
-            joined.insert(closest);
             unjoined.remove(&closest);
             for &v in &unjoined {
                 let new_dist = dist[closest] + mat[closest][v];
