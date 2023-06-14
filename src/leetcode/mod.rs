@@ -1,9 +1,11 @@
+#![allow(dead_code)]
+
 pub mod array;
-pub mod disjoint_set;
 pub mod back_trace;
 pub mod binary_search;
 pub mod binary_tree;
 pub mod data_stream;
+pub mod disjoint_set;
 pub mod dp;
 pub mod graph;
 pub mod greedy;
@@ -16,3 +18,10 @@ pub mod simulation;
 pub mod sliding_window;
 pub mod sort;
 pub mod string;
+
+#[macro_export]
+macro_rules! Solution {
+    () => {
+        pub struct Solution;
+    };
+}
