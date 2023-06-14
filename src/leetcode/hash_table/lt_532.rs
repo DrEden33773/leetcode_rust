@@ -5,10 +5,10 @@ impl Solution {
         use std::collections::HashSet;
         let mut visited = HashSet::new();
         let mut diffs = HashSet::new();
-        nums.iter().for_each(|&num| {
-            [num - k, num + k].iter().for_each(|tar| {
-                if visited.contains(tar) {
-                    diffs.insert(num.min(*tar));
+        nums.into_iter().for_each(|num| {
+            [num - k, num + k].into_iter().for_each(|tar| {
+                if visited.contains(&tar) {
+                    diffs.insert(num.min(tar));
                 }
             });
             visited.insert(num);
