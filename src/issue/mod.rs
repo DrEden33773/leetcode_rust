@@ -1,3 +1,4 @@
+pub mod const_fn;
 pub mod dsf;
 pub mod binary_tree;
 pub mod disjoint_set;
