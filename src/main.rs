@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 mod issue;
 mod leetcode;
 mod luogu;
@@ -17,5 +19,4 @@ fn show_info() {
 
 fn main() {
     show_info();
-    i64_to_f64_test();
 }

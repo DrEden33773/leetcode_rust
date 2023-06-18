@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 pub mod array;
 pub mod back_trace;
 pub mod binary_search;
@@ -20,7 +18,16 @@ pub mod sliding_window;
 pub mod sort;
 pub mod string;
 
-#[macro_export]
+/// # Solution!
+///
+/// ## Macro
+///
+/// ### Replace:
+///
+/// ```
+/// pub struct Solution;
+/// ```
+#[macro_export] /* => export to `crate` */
 macro_rules! Solution {
     () => {
         pub struct Solution;
