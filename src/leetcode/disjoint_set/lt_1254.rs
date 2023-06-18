@@ -1,6 +1,6 @@
 crate::Solution!();
 
-struct Dsu {} //
+struct Dsu {}
 
 impl Solution {
     pub fn closed_island(_grid: Vec<Vec<i32>>) -> i32 {
