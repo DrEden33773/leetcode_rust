@@ -33,3 +33,19 @@ macro_rules! Solution {
         pub struct Solution;
     };
 }
+
+/// # sln!
+///
+/// ## Macro
+///
+/// ### Replace:
+///
+/// ```
+/// pub struct Solution;
+/// ```
+#[macro_export] /* => export to `crate` */
+macro_rules! sln {
+    () => {
+        pub struct Solution;
+    };
+}
