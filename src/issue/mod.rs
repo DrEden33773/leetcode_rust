@@ -1,3 +1,4 @@
+pub mod quick_select;
 pub mod const_fn;
 pub mod dsf;
 pub mod binary_tree;
