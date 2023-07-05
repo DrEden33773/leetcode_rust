@@ -1,3 +1,4 @@
+pub mod stack;
 pub mod array;
 pub mod back_trace;
 pub mod binary_search;
