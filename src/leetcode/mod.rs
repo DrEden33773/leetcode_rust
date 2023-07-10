@@ -1,4 +1,3 @@
-pub mod stack;
 pub mod array;
 pub mod back_trace;
 pub mod binary_search;
@@ -11,12 +10,14 @@ pub mod graph;
 pub mod greedy;
 pub mod hash_table;
 pub mod heap;
+pub mod iterator;
 pub mod mathematical;
 pub mod prefix_sum;
 pub mod recursion;
 pub mod simulation;
 pub mod sliding_window;
 pub mod sort;
+pub mod stack;
 pub mod string;
 
 /// # Solution!
