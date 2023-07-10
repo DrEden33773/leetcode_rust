@@ -1,3 +1,4 @@
+pub mod two_pointers;
 pub mod array;
 pub mod back_trace;
 pub mod binary_search;
