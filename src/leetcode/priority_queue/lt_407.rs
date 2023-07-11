@@ -6,13 +6,13 @@ impl Solution {
     pub fn trap_rain_water(height_map: Vec<Vec<i32>>) -> i32 {
         /* Pre-definitions */
         #[derive(PartialEq, Eq)]
-        struct Info(i32, (usize, usize));
-        impl PartialOrd for Info {
+        struct Board(i32, (usize, usize));
+        impl PartialOrd for Board {
             fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
                 other.0.partial_cmp(&self.0)
             }
         }
-        impl Ord for Info {
+        impl Ord for Board {
             fn cmp(&self, other: &Self) -> std::cmp::Ordering {
                 other.0.cmp(&self.0)
             }
@@ -26,12 +26,12 @@ impl Solution {
         }
 
         /* Init edge */
-        let mut pq = BinaryHeap::<Info>::new();
+        let mut pq = BinaryHeap::<Board>::new();
         let mut visit = vec![vec![false; n]; m];
         for x in 0..m {
             for y in 0..n {
                 if x == 0 || x == m - 1 || y == 0 || y == n - 1 {
-                    pq.push(Info(height_map[x][y], (x, y)));
+                    pq.push(Board(height_map[x][y], (x, y)));
                     visit[x][y] = true;
                 }
             }
@@ -50,7 +50,7 @@ impl Solution {
                         ans += edge.0 - height_map[nx][ny];
                     }
                     visit[nx][ny] = true;
-                    pq.push(Info(height_map[nx][ny].max(edge.0), (nx, ny)));
+                    pq.push(Board(height_map[nx][ny].max(edge.0), (nx, ny)));
                 }
             }
         }
@@ -63,13 +63,13 @@ impl Solution {
     pub fn trap_4d(height_map: Vec<Vec<Vec<i32>>>) -> i32 {
         /* Pre-definitions */
         #[derive(PartialEq, Eq)]
-        struct Info(i32, (usize, usize, usize));
-        impl PartialOrd for Info {
+        struct Board(i32, (usize, usize, usize));
+        impl PartialOrd for Board {
             fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
                 other.0.partial_cmp(&self.0)
             }
         }
-        impl Ord for Info {
+        impl Ord for Board {
             fn cmp(&self, other: &Self) -> std::cmp::Ordering {
                 other.0.cmp(&self.0)
             }
@@ -84,7 +84,7 @@ impl Solution {
         }
 
         /* Init edge */
-        let mut pq = BinaryHeap::<Info>::new();
+        let mut pq = BinaryHeap::<Board>::new();
         let mut visit = vec![vec![vec![false; z_size]; y_size]; x_size];
         for x in 0..x_size {
             for y in 0..y_size {
@@ -96,7 +96,7 @@ impl Solution {
                         || z == 0
                         || z == z_size - 1
                     {
-                        pq.push(Info(height_map[x][y][z], (x, y, y)));
+                        pq.push(Board(height_map[x][y][z], (x, y, y)));
                         visit[x][y][z] = true;
                     }
                 }
@@ -128,7 +128,7 @@ impl Solution {
                         ans += edge.0 - height_map[nx][ny][nz];
                     }
                     visit[nx][ny][nz] = true;
-                    pq.push(Info(height_map[nx][ny][nz].max(edge.0), (nx, ny, nz)));
+                    pq.push(Board(height_map[nx][ny][nz].max(edge.0), (nx, ny, nz)));
                 }
             }
         }
