@@ -1,3 +1,4 @@
+pub mod priority_queue;
 pub mod two_pointers;
 pub mod array;
 pub mod back_trace;
