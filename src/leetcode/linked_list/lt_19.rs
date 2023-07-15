@@ -14,30 +14,40 @@ impl ListNode {
     }
 }
 
-type NullableListNode = Option<Box<ListNode>>;
-
 impl Solution {
     pub fn official_remove_nth_from_end(
         head: Option<Box<ListNode>>,
         n: i32,
     ) -> Option<Box<ListNode>> {
-        let mut dummy = Box::new(ListNode { val: 0, next: head });
-
         unsafe {
+            let mut dummy = Box::new(ListNode { val: 0, next: head });
             let mut slow = &mut dummy as *mut Box<ListNode>;
             let mut fast = &mut dummy as *mut Box<ListNode>;
-            // move fast n forward
             for _ in 0..n {
                 fast = (*fast).next.as_mut().unwrap();
             }
-
             while (*fast).next.is_some() {
                 fast = (*fast).next.as_mut().unwrap();
                 slow = (*slow).next.as_mut().unwrap();
             }
             (*slow).next = (*slow).next.take().unwrap().next;
+            dummy.next
         }
-
-        dummy.next
+    }
+    pub fn remove_nth_from_end(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
+        unsafe {
+            let dummy = &mut ListNode { val: 0, next: head } as *mut ListNode;
+            let mut slow = dummy;
+            let mut fast = dummy;
+            for _ in 0..n {
+                fast = (*fast).next.as_mut().unwrap().as_mut();
+            }
+            while (*fast).next.is_some() {
+                fast = (*fast).next.as_mut().unwrap().as_mut();
+                slow = (*slow).next.as_mut().unwrap().as_mut();
+            }
+            (*slow).next = (*slow).next.take().unwrap().next;
+            (*dummy).next.to_owned()
+        }
     }
 }
