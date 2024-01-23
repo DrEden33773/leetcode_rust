@@ -2,8 +2,13 @@ crate::sln!();
 
 impl Solution {
   pub fn halve_array(nums: Vec<i32>) -> i32 {
-    #[derive(PartialEq, PartialOrd, Clone, Copy)]
+    #[derive(PartialEq, Clone, Copy)]
     struct NonNanDouble(f64);
+    impl PartialOrd for NonNanDouble {
+      fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.0.partial_cmp(&other.0)
+      }
+    }
     impl Eq for NonNanDouble {}
     impl Ord for NonNanDouble {
       fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -33,7 +38,7 @@ impl Solution {
       .collect::<BinaryHeap<_>>();
     while used.0 < sum.0 / 2.0 {
       let max = pq.pop().unwrap();
-      let half = max.0 as f64 / 2.0;
+      let half = max.0 / 2.0;
       used.0 += half;
       pq.push(NonNanDouble::new(half));
       steps += 1;

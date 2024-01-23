@@ -42,8 +42,8 @@ pub fn better_solution(a: i64, b: i64, mut n: i64) -> i64 {
 
 #[allow(dead_code)]
 pub fn general_model_solution(
-  amount_per_day_in_period: &Vec<i64>,
-  days_per_period: &Vec<i64>,
+  amount_per_day_in_period: &[i64],
+  days_per_period: &[i64],
   mut amount: i64,
 ) -> i64 {
   let apd_in_period = amount_per_day_in_period;
@@ -104,7 +104,7 @@ pub fn test() {
     println!("answer => {}", better_solution(a, b, n));
     println!(
       "general answer => {}",
-      general_model_solution(&vec![a, b], &vec![5, 2], n)
+      general_model_solution(&[a, b], &[5, 2], n)
     );
     println!();
   }

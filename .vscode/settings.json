@@ -6,5 +6,6 @@
     "PINALSIGYAHRPI",
     "yqyyo"
   ],
+  "editor.tabSize": 2,
   "rust-analyzer.showUnlinkedFileNotification": false
 }

@@ -15,7 +15,7 @@ impl Solution {
   }
 
   #[allow(dead_code)]
-  pub fn sort_colors(nums: &mut Vec<i32>) {
+  pub fn sort_colors(nums: &mut [i32]) {
     /* [0, eof_0) => 0 */
     let mut eof_0: isize = -1;
 
@@ -36,7 +36,7 @@ impl Solution {
   }
 
   #[allow(dead_code)]
-  pub fn sort_colors_official(nums: &mut Vec<i32>) {
+  pub fn sort_colors_official(nums: &mut [i32]) {
     let mut v = [0; 3];
     for i in 0..nums.len() {
       v[nums[i] as usize] += 1;

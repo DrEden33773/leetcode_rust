@@ -60,7 +60,7 @@ impl Solution {
   /// **Optimization:** `j in (0..i).rev()`, `branch-cutting` is possible
   pub fn optimized_word_break(s: String, mut word_dict: Vec<String>) -> bool {
     word_dict.sort_unstable_by_key(|b| std::cmp::Reverse(b.len()));
-    let max_word_len = word_dict.get(0).unwrap().len();
+    let max_word_len = word_dict.first().unwrap().len();
     let dict = word_dict.into_iter().fold(HashSet::new(), |acm, word| {
       let mut acm = acm;
       acm.insert(word);

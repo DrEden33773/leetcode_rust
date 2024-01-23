@@ -6,7 +6,7 @@ use std::ops::Sub;
 
 impl Solution {
   #[inline(always)]
-  fn generate_edges(points: &Vec<Vec<i32>>) -> Vec<(usize, usize, i32)> {
+  fn generate_edges(points: &[Vec<i32>]) -> Vec<(usize, usize, i32)> {
     let mut res = vec![];
     for from in 0..points.len() {
       for to in (from + 1)..points.len() {

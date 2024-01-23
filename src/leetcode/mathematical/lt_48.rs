@@ -1,7 +1,7 @@
 crate::sln!();
 
 impl Solution {
-  pub fn rotate(matrix: &mut Vec<Vec<i32>>) {
+  pub fn rotate(matrix: &mut [Vec<i32>]) {
     let n = matrix.len();
 
     type IndexPair = (usize, usize);

@@ -57,7 +57,7 @@ impl Edge {
 ///
 /// It also uses `usize::MAX` as a sentinel value,
 /// for a simpler implementation.
-pub fn shortest_path(adj_list: &Vec<Vec<Edge>>, start: usize, goal: usize) -> Option<usize> {
+pub fn shortest_path(adj_list: &[Vec<Edge>], start: usize, goal: usize) -> Option<usize> {
   // dist[node] = current shortest distance from `start` to `node`
   let mut dist = vec![usize::MAX; adj_list.len()];
 

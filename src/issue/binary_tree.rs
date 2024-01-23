@@ -50,7 +50,7 @@ impl<T: Clone> BinaryTree<T> {
     root.as_ref().unwrap().borrow_mut().right = self.pre_order_builder(seq);
     root
   }
-  fn level_order_builder(&mut self, seq: &Vec<Option<T>>) -> Option<Rc<RefCell<TreeNode<T>>>> {
+  fn level_order_builder(&mut self, seq: &[Option<T>]) -> Option<Rc<RefCell<TreeNode<T>>>> {
     if seq.is_empty() {
       return None;
     }

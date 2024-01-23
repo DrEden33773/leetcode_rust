@@ -5,7 +5,7 @@ pub struct Solution;
 impl Solution {
   pub fn length_of_longest_substring(s: String) -> i32 {
     let mut counter = [0; 256];
-    let bytes = s.as_str().as_bytes();
+    let bytes = s.as_bytes();
     let n = bytes.len();
 
     let mut ans = 0;

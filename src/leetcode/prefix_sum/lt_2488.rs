@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 impl Solution {
   #[inline]
-  fn find<T: Ord>(nums: &Vec<T>, target: &T) -> Option<usize> {
+  fn find<T: Ord>(nums: &[T], target: &T) -> Option<usize> {
     (0..nums.len()).find(|&i| &nums[i] == target)
   }
   #[inline]

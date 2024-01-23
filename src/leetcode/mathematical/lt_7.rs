@@ -5,7 +5,7 @@ impl Solution {
     let mut rev = 0;
     let mut x = x;
     while x != 0 {
-      if rev < i32::MIN / 10 || rev > i32::MAX / 10 {
+      if !(i32::MIN / 10..=i32::MAX / 10).contains(&rev) {
         return 0;
       }
       let digit = x % 10;

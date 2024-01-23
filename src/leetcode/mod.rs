@@ -4,6 +4,7 @@ pub mod binary_search;
 pub mod binary_tree;
 pub mod bit_manipulation;
 pub mod data_stream;
+pub mod design;
 pub mod disjoint_set;
 pub mod dp;
 pub mod graph;
