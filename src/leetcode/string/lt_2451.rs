@@ -48,7 +48,7 @@ mod odd_string {
 
   #[test]
   fn it_works() {
-    let words = vec!["dtzca", "dtzca", "dtzca", "yqyyo", "dtzca", "dtzca"]
+    let words = ["dtzca", "dtzca", "dtzca", "yqyyo", "dtzca", "dtzca"]
       .iter()
       .map(|&str| str.to_owned())
       .collect::<Vec<_>>();

@@ -32,14 +32,14 @@ impl WordDictionary {
     self.trie.insert(word)
   }
 
-  fn dfs(&self, trie: &Trie, left: &[u8]) -> bool {
+  fn recursive_match(&self, trie: &Trie, left: &[u8]) -> bool {
     if left.is_empty() {
       return trie.1;
     }
     let c = left[0];
     if c == b'.' {
       for n in trie.0.iter().filter_map(|n| n.as_ref()) {
-        if self.dfs(n, &left[1..]) {
+        if self.recursive_match(n, &left[1..]) {
           return true;
         }
       }
@@ -47,7 +47,7 @@ impl WordDictionary {
     } else {
       let i = (c - b'a') as usize;
       if let Some(n) = trie.0[i].as_ref() {
-        self.dfs(n, &left[1..])
+        self.recursive_match(n, &left[1..])
       } else {
         false
       }
@@ -55,6 +55,6 @@ impl WordDictionary {
   }
 
   fn search(&self, word: String) -> bool {
-    self.dfs(&self.trie, word.as_bytes())
+    self.recursive_match(&self.trie, word.as_bytes())
   }
 }

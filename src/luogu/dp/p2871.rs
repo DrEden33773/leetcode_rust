@@ -27,7 +27,7 @@ pub fn exec_interface() {
   /* read proc */
   let mut str = String::new();
   io::stdin().read_line(&mut str).unwrap();
-  buf = str.trim().split(' ').collect();
+  buf = str.split_whitespace().collect();
   let num = buf[0].parse().unwrap();
   let capacity = buf[1].parse().unwrap();
   for _ in 0..num {
