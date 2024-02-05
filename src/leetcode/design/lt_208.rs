@@ -30,9 +30,9 @@ impl Trie {
 
   fn starts_with(&self, prefix: String) -> bool {
     let mut node = self;
-    for c in prefix.chars() {
-      let idx = (c as u8 - b'a') as usize;
-      if let Some(n) = node.0[idx].as_ref() {
+    for c in prefix.bytes() {
+      let i = (c - b'a') as usize;
+      if let Some(n) = node.0[i].as_ref() {
         node = n;
       } else {
         return false;
