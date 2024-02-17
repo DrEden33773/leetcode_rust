@@ -26,7 +26,7 @@ impl Solution {
 mod yang_hui_triangle_gen {
   #[test]
   fn test_window() {
-    let v = vec![1, 3, 1];
+    let v = [1, 3, 1];
     for i in v.windows(2) {
       eprintln!("{:?}", i);
     }

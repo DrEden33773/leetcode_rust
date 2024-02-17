@@ -6,11 +6,11 @@ use std::collections::BinaryHeap;
 #[derive(Copy, Clone, Eq, PartialEq)]
 struct State {
   cost: usize,
-  position: usize,
+  dst: usize,
 }
 impl State {
-  pub fn new(cost: usize, position: usize) -> Self {
-    State { cost, position }
+  pub fn new(cost: usize, dst: usize) -> Self {
+    State { cost, dst }
   }
 }
 
@@ -25,7 +25,7 @@ impl Ord for State {
     other
       .cost
       .cmp(&self.cost)
-      .then_with(|| other.position.cmp(&self.position))
+      .then_with(|| other.dst.cmp(&self.dst))
     // `self.position.cmp(&other.position)` will be also fine.
   }
 }
@@ -38,12 +38,12 @@ impl PartialOrd for State {
 
 // Each node is represented as a `usize`, for a shorter implementation.
 pub struct Edge {
-  node: usize,
+  dst: usize,
   cost: usize,
 }
 impl Edge {
-  pub fn new(node: usize, cost: usize) -> Self {
-    Edge { node, cost }
+  pub fn new(dst: usize, cost: usize) -> Self {
+    Edge { dst, cost }
   }
 }
 
@@ -61,7 +61,7 @@ pub fn shortest_path(adj_list: &[Vec<Edge>], start: usize, goal: usize) -> Optio
   // dist[node] = current shortest distance from `start` to `node`
   let mut dist = vec![usize::MAX; adj_list.len()];
 
-  // heap => only contains those who could arrive to `start`
+  // heap => only contains those who starts with `start`
   let mut heap = BinaryHeap::new();
 
   // We're at `start`, with a zero cost
@@ -71,34 +71,34 @@ pub fn shortest_path(adj_list: &[Vec<Edge>], start: usize, goal: usize) -> Optio
   // Examine the frontier with lower cost nodes first (min-heap)
   while let Some(State {
     cost: start_to_picked,
-    position: picked_node,
+    dst: picked,
   }) = heap.pop()
   {
     // Alternatively we could have continued to find all shortest paths
-    if picked_node == goal {
+    if picked == goal {
       return Some(start_to_picked);
     }
     // Important as we may have already found a better way,
     // in this case we could continue to save time
-    if start_to_picked > dist[picked_node] {
+    if start_to_picked > dist[picked] {
       continue;
     }
     // For each node we can reach, see if we can find a way with
     // a lower cost going through this node
     for Edge {
       cost: picked_to_curr,
-      node: curr_node,
-    } in &adj_list[picked_node]
+      dst,
+    } in &adj_list[picked]
     {
-      let new_curr = State {
+      let curr = State {
         cost: start_to_picked + *picked_to_curr,
-        position: *curr_node,
+        dst: *dst,
       };
       // If so, add it to the frontier and continue
-      if new_curr.cost < dist[*curr_node] {
-        heap.push(new_curr);
+      if curr.cost < dist[*dst] {
+        heap.push(curr);
         // We have found a better way, update dist
-        dist[*curr_node] = new_curr.cost;
+        dist[*dst] = curr.cost;
       }
     }
   }

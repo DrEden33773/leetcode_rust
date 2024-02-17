@@ -8,6 +8,7 @@ pub mod design;
 pub mod disjoint_set;
 pub mod dp;
 pub mod game_theory;
+pub mod geometry;
 pub mod graph;
 pub mod greedy;
 pub mod hash_table;

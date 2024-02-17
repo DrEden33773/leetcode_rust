@@ -324,7 +324,7 @@ mod self_impl_graph {
   #[test]
   fn test_add_edge() {
     let mut graph = Graph::<char>::default();
-    let vertices = vec!['a', 'b', 'c', 'd'];
+    let vertices = ['a', 'b', 'c', 'd'];
     let edges: Vec<(char, char, usize)> =
       vec![('a', 'b', 1), ('b', 'd', 2), ('c', 'a', 3), ('a', 'b', 2)];
     // 1. normally add vex and edge
@@ -355,7 +355,7 @@ mod self_impl_graph {
   #[test]
   fn test_del_edge() {
     let mut graph = Graph::<char>::default();
-    let vertices = vec!['a', 'b', 'c', 'd'];
+    let vertices = ['a', 'b', 'c', 'd'];
     let edges: Vec<(char, char, usize)> = vec![
       ('a', 'b', 1),
       ('b', 'd', 2),
@@ -407,7 +407,7 @@ mod self_impl_graph {
   #[test]
   fn test_del_vex() {
     let mut graph = Graph::<char>::default();
-    let vertices = vec!['a', 'b', 'c', 'd'];
+    let vertices = ['a', 'b', 'c', 'd'];
     let edges: Vec<(char, char, usize)> = vec![
       ('a', 'b', 1),
       ('b', 'd', 2),
